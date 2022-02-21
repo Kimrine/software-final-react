@@ -7,7 +7,7 @@ function Tuits({tuits = [], deleteTuit}) {
         <div>
             <ul className="ttr-tuits list-group">
                 {
-                    tuits.map(tuit => {
+                  tuits.map && tuits.map(tuit => {
                         return (
                             <Tuit key={tuit._id} deleteTuit={deleteTuit} tuit={tuit}/>
                         );

@@ -1,5 +1,12 @@
 import React from "react";
-import {fireEvent, render, screen, click, act} from '@testing-library/react';
+import {
+    fireEvent,
+    render,
+    screen,
+    click,
+    act,
+    waitFor
+} from '@testing-library/react';
 import Tuiter from "./index";
 import '@testing-library/jest-dom'
 
@@ -17,6 +24,7 @@ const links = [
     {label: 'Lists', expect: {textOnScreen: 'Lists Screen'}, icon: 'fa-list', path: '/lists'},
     {label: 'Profile', expect: {textOnScreen: 'Edit Profile'}, icon: 'fa-user', path: '/profile'},
     {label: 'More', expect: {textOnScreen: 'More Screen'}, icon: 'fa-circle-ellipsis', path: '/more'},
+    {label: 'Login', expect: {textOnScreen: 'ellenripley'}, icon: 'fa-user', path: '/login'},
 ];
 
 describe('test123', () => {
@@ -34,9 +42,15 @@ describe('test123', () => {
                 // click on the nth link
                 fireEvent.click(a[nth]);
             })
-            const regex = new RegExp(link.expect.textOnScreen, "i");
-            const linkElement = await screen.getByText(regex);
-            expect(linkElement).toBeInTheDocument();
+            // const regex = new RegExp(link.expect.textOnScreen, "i");
+            // const linkElement = await screen.getByText(regex);
+            // expect(linkElement).toBeInTheDocument();
+
+            await waitFor(() => {
+                const regex = new RegExp(link.expect.textOnScreen, "i");
+                const linkElement = screen.getByText(regex);
+                expect(linkElement).toBeInTheDocument();
+            });
         });
     });
 });

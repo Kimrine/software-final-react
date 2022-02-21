@@ -25,7 +25,7 @@ function Navigation() {
         return(
         <li key={ndx} className={`list-group-item border-0 ttr-font-size-150pc text-nowrap
          ${pathname.indexOf(link.path) >= 0 ? 'fw-bold':''}`}>
-          <Link to={link.path}
+          <Link to={link.path} id={link.label}
              className="text-decoration-none text-black">
             <i className={`fa ${link.icon} text-center`}></i>
             <span className="ttr-label">{link.label}</span>
