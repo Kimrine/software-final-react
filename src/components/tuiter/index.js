@@ -1,7 +1,7 @@
 import React from "react";
 import Navigation from "../navigation";
 import WhatsHappening from "../whats-happening";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, HashRouter} from "react-router-dom";
 import Home from "../home";
 import Bookmarks from "../bookmarks";
 import Profile from "../profile";
@@ -16,7 +16,7 @@ import {Login} from "../profile/login";
 
 function Tuiter () {
   return(
-    <BrowserRouter>
+    <HashRouter>
       <div className="container">
         <div className="ttr-tuiter">
           <div className="ttr-left-column">
@@ -27,9 +27,9 @@ function Tuiter () {
               <Route path="/" element={<Home/>}/>
               <Route path="/login" element={<Login/>}/>
               <Route path="/tuiter" element={<Home/>}/>
-              <Route path="/:uid/tuiter" element={<Home/>}/>
+              <Route path="/tuiter/:uid" element={<Home/>}/>
               <Route path="/home" element={<Home/>}/>
-              <Route path="/:uid/home" element={<Home/>}/>
+              <Route path="/home/:uid" element={<Home/>}/>
               <Route path="/explore" element={<Explore/>}/>
               <Route path="/notifications" element={<Notifications/>}/>
               <Route path="/messages" element={<Messages/>}/>
@@ -45,7 +45,7 @@ function Tuiter () {
           </div>
         </div>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 export default Tuiter;
