@@ -2,19 +2,27 @@ import React from "react";
 import Tuits from "../tuits";
 import * as service from "../../services/tuits-services";
 import {useEffect, useState} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 
 const Home = () => {
   const location = useLocation();
+  const {uid} = useParams();
   const [tuits, setTuits] = useState([]);
   const [tuit, setTuit] = useState('');
-  const userId = '62117c115c952448687814b2';
-  const findAllTuits = () =>
-      service.findAllTuits()
-          .then(tuits => setTuits(tuits));
+  const userId = uid;
+  const findTuits = () => {
+    if(uid) {
+      return service.findTuitByUser(uid)
+        .then(tuits => setTuits(tuits))
+    } else {
+      return service.findAllTuits()
+        .then(tuits => setTuits(tuits))
+    }
+  }
   useEffect(() => {
     let isMounted = true;
-    service.findAllTuits()
+    // const findTuits = uid ? service.findTuitByUser : findAllTuits;
+    findTuits()
         .then(tuits => {
           if(isMounted) setTuits(tuits);
         });
@@ -22,14 +30,17 @@ const Home = () => {
   }, []);
   const createTuit = () =>
       service.createTuit(userId, {tuit})
-          .then(findAllTuits)
+          .then(findTuits)
   const deleteTuit = (tid) =>
       service.deleteTuit(tid)
-          .then(findAllTuits)
+          .then(findTuits)
   return(
     <div className="ttr-home">
       <div className="border border-bottom-0">
         <h4 className="fw-bold p-2">Home Screen</h4>
+        {uid}
+        {/*{tuits.length}*/}
+        {/*{JSON.stringify(tuits)}*/}
         <div className="d-flex">
           <div className="p-2">
             <img className="ttr-width-50px rounded-circle"
