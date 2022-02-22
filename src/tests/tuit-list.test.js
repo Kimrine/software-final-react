@@ -6,15 +6,13 @@ import axios from "axios";
 
 jest.mock('axios');
 
+const MOCKED_USERS = [
+  "alice", "bob", "charlie"
+];
+
 const MOCKED_TUITS = [
-  {
-    _id: '123', tuit: 'tuit 123',
-    postedBy: {
-      username: 'alice', email: 'alice@wonderland.com', _id: 111
-    },
-    stats: {replies: 123, retuits: 234, likes: 345}
-  },
-]
+  "alice's tuit", "bob's tuit", "charlie's tuit"
+];
 
 test('tuit list renders static tuit array', () => {
   // TODO: implement this
