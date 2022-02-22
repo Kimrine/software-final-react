@@ -1,7 +1,8 @@
 import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import * as service from "../../services/users-services";
+import * as service from "../../services/users-service";
 import React from "react";
+import {UserList} from "./user-list";
 
 export const Login = () => {
   const [existingUsers, setExistingUsers] = useState([]);
@@ -63,24 +64,9 @@ export const Login = () => {
       <button onClick={login} className="btn btn-primary mb-5">Login</button>
 
       <h1>Login As</h1>
-      <div className="list-group">
-        {
-          existingUsers && existingUsers.map && existingUsers.map(user => {
-            return (
-              <Link className="list-group-item" key={user._id} to={`/home/${user._id}`}>
-                <span className="fs-3">{user.username}</span>
-                <button onClick={(e) => {
-                  e.stopPropagation()
-                  e.preventDefault()
-                  deleteUser(user._id)
-                }} className="btn btn-danger fa-pull-right">
-                  <i className="fas fa-remove"></i>
-                </button>
-              </Link>
-            )
-          })
-        }
-      </div>
+
+      <UserList users={existingUsers} deleteUser={deleteUser}/>
+
     </div>
   );
 };

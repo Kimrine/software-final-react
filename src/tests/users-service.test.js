@@ -2,7 +2,7 @@ import {
   createUser,
   deleteUsersByUsername, findAllUsers,
   findUserById
-} from "../services/users-services";
+} from "../services/users-service";
 
 describe('createUser', () => {
   // sample user to insert
