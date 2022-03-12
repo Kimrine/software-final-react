@@ -115,20 +115,25 @@ describe('findAllUsers',  () => {
   // setup data before test
   beforeAll(() =>
     // insert several known users
-    usernames.map(username =>
-      createUser({
-        username,
-        password: `${username}123`,
-        email: `${username}@stooges.com`
-      })
-    )
+
+      Promise.all(
+          usernames.map(username =>
+              createUser({
+                username,
+                password: `${username}123`,
+                email: `${username}@stooges.com`
+              })
+          )
+      )
   );
 
-  // clean up after ourselves
+  //clean up after ourselves
   afterAll(() =>
     // delete the users we inserted
-    usernames.map(username =>
-      deleteUsersByUsername(username)
+    Promise.all(
+      usernames.map(username =>
+        deleteUsersByUsername(username)
+      )
     )
   );
 
