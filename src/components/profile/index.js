@@ -30,7 +30,7 @@ const Profile = () => {
             <button onClick={logout}> Logout</button>
 
             <Routes>
-                <Route path="/my-tuits" element={<MyTuits />}/>
+                <Route path="/mytuits" element={<MyTuits />}/>
             </Routes>
 
         </div>
