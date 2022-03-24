@@ -13,7 +13,7 @@ const Profile = () => {
             const user = await service.profile();
             setProfile(user);
         }catch (e){
-            navigate('/login');
+            navigate('/signup');
         }
     },[]);
 
