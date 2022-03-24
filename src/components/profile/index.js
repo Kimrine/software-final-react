@@ -31,9 +31,6 @@ const Profile = () => {
 
             <Routes>
                 <Route path="/mytuits" element={<MyTuits />}/>
-                <Route path="/tuits-and-replies" element={<TuitsAndReplies />}/>
-                <Route path="/mytuits" element={<Media />}/>
-                <Route path="/mytuits" element={<MyLikes />}/>
             </Routes>
 
         </div>
