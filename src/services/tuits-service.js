@@ -1,7 +1,15 @@
 import axios from "axios";
 
-const TUITS_API = "https://yafei-software-engineer-node.herokuapp.com/api/tuits";
-const USERS_API = "https://yafei-software-engineer-node.herokuapp.com/api/users";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+const TUITS_API = `${BASE_URL}/api/tuits`;
+const USERS_API = `${BASE_URL}/api/users`;
+
+const api = axios.create({
+                             withCredentials: true
+                         });
+
+
 
 export const findAllTuits = () =>
     axios.get(TUITS_API)
