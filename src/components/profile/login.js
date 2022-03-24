@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import * as service from "../../services/auth-service"
+import {signup} from "../../services/auth-service";
 
 export const Login = () => {
     const [loginUser, setLoginUser] = useState({});
@@ -20,6 +21,8 @@ export const Login = () => {
                                  password: e.target.value})}/>
             <button onClick={login}>
                 Login</button>
+            <button onClick={navigate('/login')}>
+                Signup</button>
         </div>
     );
 };
