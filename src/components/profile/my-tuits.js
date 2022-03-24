@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import * as service from "../../services/tuits-service";
-import Tuits from "./tuits";
+import Tuits from "../tuits/index";
 
 const MyTuits = () => {
   const [tuits,setTuits] = useState([]);
