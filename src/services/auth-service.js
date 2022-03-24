@@ -1,13 +1,11 @@
 import axios from "axios";
-import {resetFirstInputPolyfill} from "web-vitals/dist/modules/lib/polyfills/firstInputPolyfill";
-const BASE_URL = 'https://yafei-software-engineer-node.herokuapp.com/';
-    //process.env.REACT_APP_BASE_URL
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 const AUTH_API = `${BASE_URL}/api/auth`;
 
 const api = axios.create({
-    withCredentials:true
-});
+                             withCredentials:true
+                         });
 
 export const signup = (user) =>
     api.post(`${AUTH_API}/signup`,user)

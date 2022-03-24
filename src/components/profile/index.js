@@ -1,7 +1,8 @@
 import React from "react";
 import Tuits from "../tuits";
 import {Link} from "react-router-dom";
-import * as service from "../../services/auth-service"
+import * as service from "../../services/auth-service";
+
 const Profile = () => {
 
     const navigate = useNavigate();
@@ -17,7 +18,8 @@ const Profile = () => {
     },[]);
 
     const logout = () => {
-        service.logout().then(()=>navigate('/login'));
+        service.logout()
+            .then(()=>navigate('/login'));
     }
 
 
