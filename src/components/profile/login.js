@@ -21,7 +21,7 @@ export const Login = () => {
                                  password: e.target.value})}/>
             <button onClick={login}>
                 Login</button>
-            <button onClick={navigate('/login')}>
+            <button onClick={navigate('/signup')}>
                 Signup</button>
         </div>
     );
