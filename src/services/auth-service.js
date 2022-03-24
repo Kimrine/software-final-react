@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "https://yafei-software-engineer-node.herokuapp.com/api/tuits";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const AUTH_API = `${BASE_URL}/api/auth`;
 
