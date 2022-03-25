@@ -28,7 +28,11 @@ const Profile = () => {
             <h4>{profile.username}</h4>
             <h6>@{profile.username}</h6>
             <button onClick={logout}> Logout</button>
-            
+
+            <Routes>
+                <Route path="/mytuits"
+                       element={<MyTuits/>}/>
+            </Routes>
 
         </div>
     );
