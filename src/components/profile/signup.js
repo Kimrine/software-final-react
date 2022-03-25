@@ -29,5 +29,6 @@ const Signup = () => {
             </button>
         </div>
     );
-}
+};
+
 export default Signup;
