@@ -26,6 +26,7 @@ function Tuiter () {
             <Routes>
               <Route path="/" element={<Home/>}/>
               <Route path="/login" element={<Login/>}/>
+              <Route path="/signup" element={<Signup/>}/>
               <Route path="/tuiter" element={<Home/>}/>
               <Route path="/tuiter/:uid" element={<Home/>}/>
               <Route path="/home" element={<Home/>}/>
