@@ -13,6 +13,7 @@ import Messages from "../messages";
 import Lists from "../lists";
 import More from "../more";
 import {Login} from "../profile/login";
+import Signup from "../profile/signup";
 
 function Tuiter () {
   return(
