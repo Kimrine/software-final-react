@@ -6,7 +6,7 @@ import * as service from "../../services/tuits-service";
 
 const Tuits = ({tuits = [], refreshTuits}) => {
     const likeTuit = (tuit) =>
-        likesService.userTogglesTuitLikes("me", tuit._id)
+        likesService.userTogglesTuitLikes("my", tuit._id)
             .then(refreshTuits)
             .catch(e => alert(e));
 
@@ -15,7 +15,7 @@ const Tuits = ({tuits = [], refreshTuits}) => {
             .then(refreshTuits);
 
     const dislikeTuit = (tuit) =>
-        likesService.userTogglesTuitDislikes("me",tuit._id)
+        likesService.userTogglesTuitDislikes("my",tuit._id)
             .then(refreshTuits)
             .catch(e=>alert(e));
 
@@ -27,7 +27,6 @@ const Tuits = ({tuits = [], refreshTuits}) => {
                                                <Tuit key={tuit._id}
                                                      deleteTuit={deleteTuit}
                                                      likeTuit={likeTuit}
-                                                     dislikeTuit={deleteTuit}
                                                      tuit={tuit}/>)
                 }
             </ul>

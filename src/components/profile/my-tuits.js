@@ -5,7 +5,7 @@ import Tuits from "../tuits/index";
 const MyTuits = () => {
   const [tuits, setTuits] = useState([]);
   const findMyTuits = () =>
-      service.findTuitByUser("me")
+      service.findTuitByUser("my")
           .then(tuits => setTuits(tuits));
   useEffect(findMyTuits, []);
   return(
