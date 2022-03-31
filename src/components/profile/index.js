@@ -1,3 +1,7 @@
+/**
+ * @file Profile component for display profile page of a user
+ * Profile page contains links to my-tuits, my-likes
+ */
 import React, {useEffect, useState} from "react";
 import MyTuits from "./my-tuits";
 import {HashRouter, Link, Route, Routes, useNavigate, useLocation} from "react-router-dom";

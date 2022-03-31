@@ -10,7 +10,9 @@ import{
 import {createUser, deleteUsersByUsername} from "../services/users-service";
 import {createTuit, deleteTuit, findTuitById} from "../services/tuits-service";
 
-
+/**
+ * Test user can dislike a tuit with REST API
+ */
 describe('user can dislike a tuit with REST API',()=>{
 
     const ripley = {
@@ -68,6 +70,9 @@ describe('user can dislike a tuit with REST API',()=>{
     })
 });
 
+/**
+ * Test user can un-dislike a tuit with REST API
+ */
 describe('user can un-dislike a tuit with REST API',()=>{
 
     const ripley = {
