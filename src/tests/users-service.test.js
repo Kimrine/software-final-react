@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import {
   createUser,
   deleteUsersByUsername, findAllUsers,
