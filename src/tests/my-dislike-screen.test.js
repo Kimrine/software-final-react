@@ -4,7 +4,9 @@ import {api} from "../services/like-service";
 import React from "react";
 import {HashRouter} from "react-router-dom";
 
-
+/***
+ * Mock dislike screen
+ */
 const MOCKED_TUITS = [
     {
         _id: "6213c0b08a4248e9e09e1ft1",
