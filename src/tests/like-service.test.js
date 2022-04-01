@@ -3,13 +3,14 @@
  * @file Implements tests for likes&dislikes API
  */
 
+
 import{
     userTogglesTuitLikes,
     userTogglesTuitDislikes,findAllTuitsLikedByUser,
     findAllTuitsDislikedByUser
 } from "../services/like-service"
 import {createUser, deleteUsersByUsername} from "../services/users-service";
-import {createTuit, deleteTuit, findTuitById} from "../services/tuits-service";
+import {createTuit, deleteTuit, findAllTuits, findTuitById} from "../services/tuits-service";
 
 /**
  * Test user can dislike a tuit with REST API
@@ -71,6 +72,7 @@ describe('user can dislike a tuit with REST API',()=>{
     })
 });
 
+
 /**
  * Test user can un-dislike a tuit with REST API
  */
@@ -130,4 +132,110 @@ describe('user can un-dislike a tuit with REST API',()=>{
         const undislikeTuit = await findTuitById(newTuit._id);
         expect(undislikeTuit.stats.dislikes).toEqual(0);
     })
+});
+
+/**
+ * Test can retrieve all tuits disliked by user with REST API
+ */
+describe('can retrieve all tuits disliked by user with REST API', () => {
+
+    const tuit1 =
+        {
+            _id:'6213c0b08a4117e9e09e1fa1',
+            tuit:'tuit1'
+        };
+
+    const tuit2 =
+        {
+            _id:'6213c0b08a4117e9e09e1fa2',
+            tuit:'tuit2'
+        };
+
+    const tuit3 =
+        {
+            _id:'6213c0b08a4117e9e09e1fa3',
+            tuit:'tuit3'
+        };
+
+
+
+    const ripley = {
+        username: 'ellenripley',
+        password: 'lv426',
+        email: 'ellenripley@aliens.com'
+    };
+
+    let uid = null;
+
+    beforeAll(async () => {
+                  const user = await createUser(ripley);
+                  uid = user._id;
+
+                  const newTuit1 = await createTuit(uid,tuit1);
+                  const newTuit2 = await createTuit(uid,tuit2);
+                  const newTuit3 = await createTuit(uid,tuit3);
+
+
+                  await userTogglesTuitDislikes(uid,newTuit1._id);
+                  await userTogglesTuitDislikes(uid,newTuit2._id);
+                  await userTogglesTuitLikes(uid,newTuit3._id);
+
+              }
+
+
+    );
+
+    afterAll(async () => {
+
+                 const newTuit1 = await findTuitById(tuit1._id);
+                 if(newTuit1.stats.dislikes>0){
+                     await userTogglesTuitDislikes(uid,tuit1._id);
+                 }
+
+                const newTuit2 = await findTuitById(tuit2._id);
+                if(newTuit2.stats.dislikes>0){
+                    await userTogglesTuitDislikes(uid,tuit2._id);
+                }
+
+                const newTuit3 = await findTuitById(tuit3._id);
+                if(newTuit3.stats.likes>0){
+                    await userTogglesTuitLikes(uid,tuit3._id);
+                }
+
+                await deleteUsersByUsername(ripley.username);
+
+                await deleteTuit(tuit1._id);
+                await deleteTuit(tuit2._id);
+                await deleteTuit(tuit3._id);
+             }
+
+
+
+    );
+
+    test('can retrieve all tuits disliked by user with REST API', async () => {
+
+
+        const getDislikedTuits = await findAllTuitsDislikedByUser(uid);
+
+        expect(getDislikedTuits.length).toBeGreaterThanOrEqual(2);
+
+        const dislikedId = [tuit1._id,tuit2._id];
+
+        getDislikedTuits.forEach(tuit => {
+            expect(dislikedId.indexOf(tuit._id)).toBeGreaterThanOrEqual(0);
+        });
+
+        const getlikedTuits = await findAllTuitsLikedByUser(uid);
+
+        expect(getlikedTuits.length).toBeGreaterThanOrEqual(1);
+
+        const likedId = [tuit3._id];
+
+        getlikedTuits.forEach(tuit => {
+            expect(likedId.indexOf(tuit3._id)).toBeGreaterThanOrEqual(0);
+        });
+
+    });
+
 });

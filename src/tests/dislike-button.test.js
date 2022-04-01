@@ -23,9 +23,9 @@ const MOCKED_TUIT =
  * Test the dislike button display successfully
  */
 describe("render dislikes-button with static tuit", () => {render(
-        <HashRouter>
-            <Tuit tuit={MOCKED_TUIT}/>
-        </HashRouter>);
+    <HashRouter>
+        <Tuit tuit={MOCKED_TUIT}/>
+    </HashRouter>);
 
     test("render dislikes-button with static tuit", () => {
 
@@ -33,6 +33,5 @@ describe("render dislikes-button with static tuit", () => {render(
         expect(linkElement1).toBeInTheDocument();
     })
 })
-
 
 
