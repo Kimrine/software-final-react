@@ -1,5 +1,5 @@
 /**
- * @file Implements the dislikes service
+ * @file Implements the like and dislikes service
  */
 import axios from "axios";
 

@@ -1,5 +1,6 @@
 /**
  * @jest-environment node
+ * @file Implements tests for likes&dislikes API
  */
 
 import{
