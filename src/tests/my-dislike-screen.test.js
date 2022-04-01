@@ -1,12 +1,12 @@
+/**
+ * @file Implements tests for my-dislike screen
+ */
 import MyDislikes from "../components/profile/my-dislikes";
 import {render, screen, waitFor} from "@testing-library/react";
 import {api} from "../services/like-service";
 import React from "react";
 import {HashRouter} from "react-router-dom";
 
-/***
- * Mock dislike screen
- */
 const MOCKED_TUITS = [
     {
         _id: "6213c0b08a4248e9e09e1ft1",
@@ -43,6 +43,9 @@ const MOCKED_TUITS = [
     }
 ];
 
+/**
+ * Testing my dislike screen renders mocked
+ */
 describe('my dislike screen renders mocked ', () => {
     const mock = jest.spyOn(api, 'get');
 
