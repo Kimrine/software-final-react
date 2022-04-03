@@ -4,19 +4,39 @@
  */
 import React, {useEffect, useState} from "react";
 import MyTuits from "./my-tuits";
-import {HashRouter, Link, Route, Routes, useNavigate, useLocation} from "react-router-dom";
+import {
+    HashRouter,
+    Link,
+    Route,
+    Routes,
+    useNavigate,
+    useLocation,
+    useParams
+} from "react-router-dom";
 import * as service from "../../services/auth-service"
 import MyLikes from "./my-likes";
 import MyDislikes from "./my-dislikes";
 
 const Profile = () => {
+    const {username} = useParams();
     const navigate = useNavigate();
     const location = useLocation();
     const [profile, setProfile] = useState({});
+    const uName = username;
+
     useEffect(async () => {
+
         try {
-            const user = await service.profile();
-            setProfile(user);
+                // let user = null;
+                // if(username===null){
+                    const user = await service.profile();
+                // }else{
+                //     user = await service.findUser(uName);
+                // }
+
+                setProfile(user);
+
+
         } catch (e) {
             navigate('/login');
         }

@@ -1,9 +1,8 @@
 import axios from "axios";
-const BASE_URL = "https://yafei-software-engineer-node.herokuapp.com/api";
-// const BASE_URL = "http://localhost:4000/api";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const LOGIN_API = `${BASE_URL}/login`;
-const USERS_API = `${BASE_URL}/users`;
+const LOGIN_API = `${BASE_URL}/api/login`;
+const USERS_API = `${BASE_URL}/api/users`;
 
 export const createUser = (user) =>
   axios.post(`${USERS_API}`, user)

@@ -13,11 +13,13 @@ const Home = () => {
   const findTuits = () =>
       service.findAllTuits()
           .then(tuits => setTuits(tuits));
+
   useEffect(() => {
     let isMounted = true;
     findTuits()
     return () => {isMounted = false;}
   }, []);
+
   const createTuit = () =>
       service.createTuit('my', {tuit})
           .then(findTuits)

@@ -45,7 +45,9 @@ const Tuit = ({tuit, deleteTuit, likeTuit,dislikeTuit}) => {
                 </Link>
                 <h2
                     className="fs-5">
-                    {tuit.postedBy && tuit.postedBy.username}
+                    <Link to={`/profile/${tuit.postedBy.username}`}>
+                        {tuit.postedBy && tuit.postedBy.username}
+                    </Link>
                     @{tuit.postedBy && tuit.postedBy.username} -
                     <span className="ms-1">{daysOld(tuit)}</span></h2>
                 {tuit.tuit}
