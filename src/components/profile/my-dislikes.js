@@ -4,6 +4,7 @@
 import Tuits from "../tuits";
 import * as service from "../../services/like-service";
 import {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 
 /**
  * Implements the my-dislike screen for display all tuits disliked by a specific user
@@ -12,9 +13,12 @@ import {useEffect, useState} from "react";
  */
 
 const MyDislikes = () => {
+
+    const {username} = useParams();
+
     const [dislikedTuits, setDislikedTuis] = useState([]);
     const findTuitsIDislike = () =>
-        service.findAllTuitsDislikedByUser("my")
+        service.findAllTuitsDislikedByUser(username)
             .then((tuits) => setDislikedTuis(tuits));
     useEffect(findTuitsIDislike, []);
 

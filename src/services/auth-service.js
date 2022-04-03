@@ -16,9 +16,6 @@ export const profile = () =>
             .then(response => response.data);
 
 
-
-
-
 export const logout = (user) =>
     api.post(`${AUTH_API}/logout`,user)
         .then(response => response.data);
@@ -28,5 +25,5 @@ export const login = (credentials) =>
         .then(response => response.data);
 
 export const findUser = (username) =>
-    api.get(`${BASE_URL}/api/users/username/:username`,username)
+    api.get(`${BASE_URL}/api/users/username/${username}`)
         .then(response=>response.data);

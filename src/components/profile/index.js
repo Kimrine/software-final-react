@@ -22,20 +22,18 @@ const Profile = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [profile, setProfile] = useState({});
-    const uName = username;
+    const [currentUser,setCurrentUser] = useState({});
 
     useEffect(async () => {
 
         try {
-                // let user = null;
-                // if(username===null){
-                    const user = await service.profile();
-                // }else{
-                //     user = await service.findUser(uName);
-                // }
+                let user = await service.profile();
+                setCurrentUser(user);
+                if(username!==user.username){
+                    user = await service.findUser(username);
+                }
 
                 setProfile(user);
-
 
         } catch (e) {
             navigate('/login');
@@ -60,13 +58,27 @@ const Profile = () => {
                                  src="../images/nasa-3.png"/>
                         </div>
                     </div>
-                    <Link to="/profile/edit"
-                          className="mt-2 me-2 btn btn-large btn-light border border-secondary fw-bolder rounded-pill fa-pull-right">
-                        Edit profile
-                    </Link>
-                    <button onClick={logout} className="mt-2 float-end btn btn-warning rounded-pill">
-                        Logout
-                    </button>
+                    {
+                        profile.username === currentUser.username
+                        &&<div>
+                            <Link to="/profile/edit" className="mt-2 me-2 btn btn-large btn-light border border-secondary fw-bolder rounded-pill fa-pull-right">
+                                Edit profile
+                            </Link>
+                            <button onClick={logout} className="mt-2 float-end btn btn-warning rounded-pill">
+                                Logout
+                            </button>
+                        </div>
+
+                    }
+                    {
+                        profile.username !== currentUser.username &&
+                        <div>
+                            <button className="mt-2 me-2 float-end btn btn-warning rounded-pill">
+                                  Follow
+                            </button>
+                        </div>
+
+                    }
                 </div>
 
                 <div className="p-2">
@@ -92,17 +104,17 @@ const Profile = () => {
                     <b className="ms-4">51.1M</b> Followers
                     <ul className="mt-4 nav nav-pills nav-fill">
                         <li className="nav-item">
-                            <Link to="/profile/mytuits"
+                            <Link to={`/profile/${profile.username}/mytuits`}
                                   className={`nav-link ${location.pathname.indexOf('mytuits') >= 0 ? 'active':''}`}>
                                 Tuits</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/profile/mylikes"
+                            <Link to={`/profile/${profile.username}/mylikes`}
                                   className={`nav-link ${location.pathname.indexOf('mylikes') >= 0 ? 'active':''}`}>
                                 Likes</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/profile/mydislikes"
+                            <Link to={`/profile/${profile.username}/mydislikes`}
                                   className={`nav-link ${location.pathname.indexOf('dislikes') >= 0 ? 'active':''}`}>
                                 Dislikes</Link>
                         </li>
@@ -110,9 +122,9 @@ const Profile = () => {
                 </div>
             </div>
             <Routes>
-                <Route path="/mytuits" element={<MyTuits/>}/>
-                <Route path="/mylikes" element={<MyLikes/>}/>
-                <Route path="/mydislikes" element={<MyDislikes/>}/>
+                <Route path="/mytuits" element={<MyTuits username={profile.username}/>}/>
+                <Route path="/mylikes" element={<MyLikes username={profile.username}/>}/>
+                <Route path="/mydislikes" element={<MyDislikes username={profile.username}/>}/>
             </Routes>
         </div>
     );

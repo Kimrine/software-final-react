@@ -9,14 +9,16 @@ function Navigation() {
   const [profile, setProfile] = useState({});
   useEffect(async () => {
     try {
-      const user = await service.profile();
+      const user =  await service.profile();
+
       setProfile(user);
+
     } catch (e) {
       navigate('/login');
     }
-  }, []);
+  }, [pathname]);
 
-  // console.log(location.pathname);
+  //console.log("loading laoding ");
   const links = [
     {label: 'Tuiter', icon: 'fa-square-t', path: '/tuiter'},
     {label: 'Home', icon: 'fa-home', path: '/home'},
@@ -25,7 +27,7 @@ function Navigation() {
     {label: 'Messages', icon: 'fa-envelope', path: '/messages'},
     {label: 'Bookmarks', icon: 'fa-bookmark', path: '/bookmarks'},
     {label: 'Lists', icon: 'fa-list', path: '/lists'},
-    {label: 'Profile', icon: 'fa-user', path: `/profile/${profile.username}`},
+    {label: 'Profile', icon: 'fa-user', path:`/profile${profile ? "/" + profile.username : ""}`},
     {label: 'More', icon: 'fa-circle-ellipsis', path: '/more'},
     {label: 'Login', icon: 'fa-user', path: '/login'},
     {label: 'Signup', icon: 'fa-user', path: '/signup'}

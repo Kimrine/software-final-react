@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Navigation from "../navigation";
 import WhatsHappening from "../whats-happening";
-import {BrowserRouter, Routes, Route, HashRouter} from "react-router-dom";
+import {BrowserRouter, Routes, Route, HashRouter, useNavigate} from "react-router-dom";
 import Home from "../home";
 import Bookmarks from "../bookmarks";
 import Profile from "../profile";
@@ -14,8 +14,12 @@ import Lists from "../lists";
 import More from "../more";
 import {Login} from "../profile/login";
 import Signup from "../profile/signup";
+import * as service from "../../services/auth-service";
 
 function Tuiter () {
+
+
+
   return(
     <HashRouter>
       <div className="container">
@@ -38,7 +42,8 @@ function Tuiter () {
               <Route path="/bookmarks" element={<Bookmarks/>}/>
               <Route path="/lists" element={<Lists/>}/>
               <Route path="/profile" element={<Profile/>}/>
-              <Route path="/profile/*" element={<Profile />}/>
+              <Route path="/profile/:username" element={<Profile/>}/>
+              <Route path="/profile/:username/*" element={<Profile />}/>
               <Route path="/profile/edit" element={<EditProfile/>}/>
               <Route path="/more" element={<More/>}/>
             </Routes>
