@@ -15,6 +15,8 @@ import More from "../more";
 import {Login} from "../profile/login";
 import Signup from "../profile/signup";
 import * as service from "../../services/auth-service";
+import Following from "../profile/following";
+import Followers from "../profile/followers";
 
 function Tuiter () {
 
@@ -43,6 +45,8 @@ function Tuiter () {
               <Route path="/lists" element={<Lists/>}/>
               <Route path="/profile" element={<Profile/>}/>
               <Route path="/profile/:username" element={<Profile/>}/>
+              <Route path="/profile/:username/following" element={<Following/>}/>
+              <Route path="/profile/:username/followers" element={<Followers/>}/>
               <Route path="/profile/:username/*" element={<Profile />}/>
               <Route path="/profile/edit" element={<EditProfile/>}/>
               <Route path="/more" element={<More/>}/>

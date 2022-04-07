@@ -9,7 +9,8 @@ const Home = () => {
   const {uid} = useParams();
   const [tuits, setTuits] = useState([]);
   const [tuit, setTuit] = useState('');
-  const userId = uid;
+
+
   const findTuits = () =>
       service.findAllTuits()
           .then(tuits => setTuits(tuits));

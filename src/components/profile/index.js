@@ -13,7 +13,9 @@ import {
     useLocation,
     useParams
 } from "react-router-dom";
-import * as service from "../../services/auth-service"
+import * as authService from "../../services/auth-service"
+import * as followService from "../../services/follow-service"
+
 import MyLikes from "./my-likes";
 import MyDislikes from "./my-dislikes";
 
@@ -27,10 +29,13 @@ const Profile = () => {
     useEffect(async () => {
 
         try {
-                let user = await service.profile();
+                let user = await authService.profile();
                 setCurrentUser(user);
                 if(username!==user.username){
-                    user = await service.findUser(username);
+                    user = await authService.findUser(username);
+                }else{
+                    user = await authService.findUser(username);
+                    setCurrentUser(user);
                 }
 
                 setProfile(user);
@@ -38,11 +43,31 @@ const Profile = () => {
         } catch (e) {
             navigate('/login');
         }
-    }, []);
+    }, [username]);
+
     const logout = () => {
-        service.logout()
+        authService.logout()
             .then(() => navigate('/login'));
     }
+
+    const refreshUser = async () => {
+        let user = await authService.findUser(username);
+        setProfile(user);
+
+    }
+
+    const followUser = async () => {
+        console.log(currentUser._id + ":" + profile._id);
+
+        followService.userTogglesUserFollows(currentUser._id, profile._id)
+            .then(refreshUser)
+            .catch(e => alert(e));
+    }
+
+    console.log("test:",profile);
+
+    const follow = "Follow";
+    const unfollow = "Unfollow";
     return(
         <div className="ttr-profile">
             <div className="border border-bottom-0">
@@ -64,7 +89,7 @@ const Profile = () => {
                             <Link to="/profile/edit" className="mt-2 me-2 btn btn-large btn-light border border-secondary fw-bolder rounded-pill fa-pull-right">
                                 Edit profile
                             </Link>
-                            <button onClick={logout} className="mt-2 float-end btn btn-warning rounded-pill">
+                            <button type="button" onClick={logout} className="mt-2 float-end btn btn-warning rounded-pill">
                                 Logout
                             </button>
                         </div>
@@ -73,8 +98,13 @@ const Profile = () => {
                     {
                         profile.username !== currentUser.username &&
                         <div>
-                            <button className="mt-2 me-2 float-end btn btn-warning rounded-pill">
-                                  Follow
+                            <button onClick={followUser} className="mt-2 me-3 float-end btn btn-primary rounded-pill">
+                                {
+                                    profile.followedByMe && unfollow
+                                }
+                                {
+                                    profile.followedByMe === false && follow
+                                }
                             </button>
                         </div>
 
@@ -100,8 +130,8 @@ const Profile = () => {
                         <i className="far fa-calendar me-2"></i>
                         Joined December 2007
                     </p>
-                    <b>178</b> Following
-                    <b className="ms-4">51.1M</b> Followers
+                    <Link to={`/profile/${profile.username}/following` } className="text-decoration-none"><b>{profile.followings}</b> Following</Link>
+                    <Link to={`/profile/${profile.username}/followers`} className="text-decoration-none"><b className="ms-4">{profile.followers}</b> Followers</Link>
                     <ul className="mt-4 nav nav-pills nav-fill">
                         <li className="nav-item">
                             <Link to={`/profile/${profile.username}/mytuits`}

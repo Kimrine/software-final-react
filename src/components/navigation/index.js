@@ -10,11 +10,8 @@ function Navigation() {
   useEffect(async () => {
     try {
       const user =  await service.profile();
-
       setProfile(user);
-
     } catch (e) {
-      navigate('/login');
     }
   }, [pathname]);
 
