@@ -21,7 +21,6 @@ import Followers from "../profile/followers";
 function Tuiter () {
 
 
-
   return(
     <HashRouter>
       <div className="container">
