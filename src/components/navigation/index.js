@@ -12,6 +12,7 @@ function Navigation() {
       const user =  await service.profile();
       setProfile(user);
     } catch (e) {
+
     }
   }, [pathname]);
 
