@@ -86,6 +86,14 @@ const Home = () => {
                                                                   ...newTuit,
                                                                   image: e.target.value
                                                               })}/>
+                                        <input type="file" name="myImage"
+                                               onChange={(event) => {
+                                                   console.log(event.target.files[0]);
+                                                   setNewTuit({
+                                                       ...newTuit,
+                                                       image: URL.createObjectURL(event.target.files[0])
+                                                   })
+                                               }} />
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={() => {
