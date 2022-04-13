@@ -27,10 +27,12 @@ const Profile = () => {
     const [currentUser,setCurrentUser] = useState({});
 
     useEffect(async () => {
-
         try {
+                console.log("Effect");
                 let user = await authService.profile();
+                console.log(user);
                 setCurrentUser(user);
+                //not login user
                 if(username!==user.username){
                     user = await authService.findUser(username);
                 }else{
@@ -86,7 +88,8 @@ const Profile = () => {
                     {
                         profile.username === currentUser.username
                         &&<div>
-                            <Link to="/profile/edit" className="mt-2 me-2 btn btn-large btn-light border border-secondary fw-bolder rounded-pill fa-pull-right">
+                            <Link to={`/profile/${profile.username}/edit`}
+                                  className="mt-2 me-2 btn btn-large btn-light border border-secondary fw-bolder rounded-pill fa-pull-right">
                                 Edit profile
                             </Link>
                             <button type="button" onClick={logout} className="mt-2 float-end btn btn-warning rounded-pill">
@@ -117,7 +120,14 @@ const Profile = () => {
                     </h4>
                     <h6 className="pt-0">@{profile.username}</h6>
                     <p className="pt-2">
-                        There's space for everybody. Sparkles
+                        {
+                            profile.biography && <span>{profile.biography}</span>
+                        }
+                        {
+                            profile.biography===null&&
+                            <span>There's space for everybody. Sparkles</span>
+                        }
+
                     </p>
                     <p>
                         <i className="far fa-location-dot me-2"></i>

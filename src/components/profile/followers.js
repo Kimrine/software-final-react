@@ -18,7 +18,16 @@ const Followers = () => {
 
     return(
         <div>
-            <h2>Followers</h2>
+            <div>
+                <div className="pf-float-left pf-margin16">
+                    <Link to={`/profile/${username}`}><span className="fas fa-arrow-left"></span></Link>
+                </div>
+                <div className="pf-float-left pf-margin-left16">
+                    <span className="pf-title"><b>{username}</b></span><br/>
+                    <span className="pf-handle pf-font">@{username}</span>
+                </div>
+                <div className="pf-clear"></div>
+            </div>
             <ul className="mt-4 nav nav-pills nav-fill">
                 <li className="nav-item">
                     <Link to={`/profile/${username}/followers`}

@@ -25,7 +25,7 @@ const WhoToFollowList = () => {
         } catch (e) {
             navigate('/login');
         }
-    }, [pathname,whos]);
+    }, [pathname]);
 
 
     return (
