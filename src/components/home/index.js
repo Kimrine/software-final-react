@@ -19,6 +19,7 @@ const Home = () => {
 
     const [tuits, setTuits] = useState([]);
     const [newTuit, setNewTuit] = useState({tuit: ''});
+    const [images, setImages] = useState([]);
 
     const findTuits = () =>
         service.findAllTuits()
@@ -35,7 +36,7 @@ const Home = () => {
     const createNewTuit = (newTuit) => {
         const tuit = {
             ...newTuit,
-            //_id: (new Date()).getTime() + '',
+            image: images,
             stats: {
                 replies: 0,
                 retuits: 0,
@@ -81,19 +82,18 @@ const Home = () => {
                                     <Modal.Body>
                                         <input className="w-100"
                                                placeholder="Enter link"
-                                               onChange={(e) =>
-                                                   setNewTuit({
-                                                                  ...newTuit,
-                                                                  image: e.target.value
-                                                              })}/>
-                                        <input type="file" name="myImage"
+                                               onChange={(e) =>{
+                                                   const url = e.target.value;
+                                                   setImages((arr) =>
+                                                                  [...arr, url]
+                                                   )}}/>
+                                        <input type="file" name="myImage" accept="image/gif,image/jpeg,image/jpg,image/png" multiple
                                                onChange={(event) => {
                                                    console.log(event.target.files[0]);
-                                                   setNewTuit({
-                                                       ...newTuit,
-                                                       image: URL.createObjectURL(event.target.files[0])
-                                                   })
-                                               }} />
+                                                   const url = URL.createObjectURL(event.target.files[0]);
+                                                   setImages((arr) =>
+                                                                 [...arr, url]
+                                                   )}}/>
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={() => {
