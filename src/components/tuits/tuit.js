@@ -1,6 +1,6 @@
 import React from "react";
 import TuitStats from "./tuit-stats";
-import TuitImage from "./tuit-image";
+import {TuitImage, SingleTuitImage} from "./tuit-image";
 import TuitVideo from "./tuit-video";
 import {useNavigate, Link} from "react-router-dom";
 
@@ -56,9 +56,14 @@ const Tuit = ({tuit, deleteTuit, likeTuit,dislikeTuit}) => {
                     <TuitVideo tuit={tuit}/>
                 }
                 {
-                    tuit.image &&
-                    <TuitImage tuit={tuit}/>
+                    tuit.image && tuit.image.length === 1 &&
+                    <SingleTuitImage image={tuit.image[0]}/>
                 }
+                {
+                    tuit.image && tuit.image.length > 1 &&
+                    <TuitImage images={tuit.image}/>
+                }
+
                 <TuitStats tuit={tuit} likeTuit={likeTuit} dislikeTuit={dislikeTuit}/>
             </div>
         </li>

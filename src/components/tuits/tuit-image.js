@@ -1,23 +1,32 @@
 import React, {useState} from "react";
 import {Button, Modal} from "react-bootstrap";
+import Carousel from 'react-bootstrap/Carousel'
 
-const TuitImage = ({tuit}) => {
+export const TuitImage = ({images = []}) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true)
+    const [img, setImg] = useState();
 
+    const handleShow = () => setShow(true);
+//className=" position-relative"
     return (
-        <div className="position-relative">
 
-            <a onClick={() => {
-                handleShow()
-            }}><img src={`${tuit.image}`}
-                    className="mt-2 w-100 ttr-rounded-15px"/></a>
+        <div className="h-100">
+            <Carousel>
+                {images.map && images.map(image =>
+                                              <Carousel.Item>
+                                                  <a onClick={() => {
+                                                      setImg(image)
+                                                      handleShow()
+                                                  }}><img src={image}
+                                                          className=" tt-images mt-2 w-100 ttr-rounded-15px"/></a>
+                                              </Carousel.Item>)}
+            </Carousel>
             <Modal size="lg" show={show} onHide={() => {
                 handleClose()
             }}>
                 <Modal.Body>
-                    <img src={`${tuit.image}`}
+                    <img src={img}
                          className="w-100"/>
                 </Modal.Body>
                 <Modal.Footer>
@@ -28,15 +37,41 @@ const TuitImage = ({tuit}) => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-            {/*{*/}
-            {/*  tuit.imageOverlay &&*/}
-            {/*  <span*/}
-            {/*    className={`fa-2x text-white fw-bold bottom-0*/}
-            {/*                ttr-tuit-image-overlay position-absolute`}>*/}
-            {/*    {tuit.imageOverlay}*/}
-            {/*  </span>*/}
-            {/*}*/}
         </div>
+
     );
 };
-export default TuitImage;
+
+export const SingleTuitImage = ({image}) => {
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+//className=" position-relative"
+    return (
+
+        <div className="position-relative">
+
+            <a onClick={() => {
+                handleShow()
+            }}><img src={image}
+                    className=" mt-2 w-100 ttr-rounded-15px"/></a>
+
+            <Modal size="lg" show={show} onHide={() => {
+                handleClose()
+            }}>
+                <Modal.Body>
+                    <img src={image}
+                         className="w-100"/>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={() => {
+                        handleClose()
+                    }}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+
+    );
+};
