@@ -18,6 +18,7 @@ import * as followService from "../../services/follow-service"
 
 import MyLikes from "./my-likes";
 import MyDislikes from "./my-dislikes";
+import MyMedia from "./my-medias"
 
 const Profile = () => {
     const {username} = useParams();
@@ -158,6 +159,11 @@ const Profile = () => {
                                   className={`nav-link ${location.pathname.indexOf('dislikes') >= 0 ? 'active':''}`}>
                                 Dislikes</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link to={`/profile/${profile.username}/mymedias`}
+                                  className={`nav-link ${location.pathname.indexOf('medias') >= 0 ? 'active':''}`}>
+                                Medias</Link>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -165,6 +171,7 @@ const Profile = () => {
                 <Route path="/mytuits" element={<MyTuits username={profile.username}/>}/>
                 <Route path="/mylikes" element={<MyLikes username={profile.username}/>}/>
                 <Route path="/mydislikes" element={<MyDislikes username={profile.username}/>}/>
+                <Route path="/mymedias" element={<MyMedia username={profile.username}/>}/>
             </Routes>
         </div>
     );

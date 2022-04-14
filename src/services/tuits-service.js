@@ -38,3 +38,7 @@ export const deleteTuit = (tid) =>
     api.delete(`${TUITS_API}/${tid}`)
         .then(response => response.data);
 
+export const findAllTuitsHaveMediasByUser = (uid) =>
+    api.get(`${USERS_API}/${uid}/media`)
+        .then(response => response.data);
+
