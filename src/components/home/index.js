@@ -46,6 +46,28 @@ const Home = () => {
         service.createTuit('my', tuit).then(findTuits);
     };
 
+    const imageData = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
+
+    const handleFileRead = async (event) => {
+        const file = event.target.files[0]
+        const img = await imageData(file)
+        setNewTuit({
+            ...newTuit,
+            image: img
+        })
+    }
+
     return (
         <div className="ttr-home">
             <div className="border border-bottom-0">
@@ -86,14 +108,24 @@ const Home = () => {
                                                                   ...newTuit,
                                                                   image: e.target.value
                                                               })}/>
-                                        <input type="file" name="myImage"
-                                               onChange={(event) => {
+                                        <input type="file" name="myImage" accept="image/png, image/jpg"
+
+                                               onChange={e => handleFileRead(e)}
+                                               /*onChange={(event) => {
                                                    console.log(event.target.files[0]);
+                                                   let img = '';
+                                                   imageData(event.target.files[0], (result) => {
+                                                       img = result;
+                                                       console.log(img);
+                                                   });
+                                                   console.log(img);
+                                                   // const img = JSON.parse(event.target.files[0]);
                                                    setNewTuit({
                                                        ...newTuit,
-                                                       image: URL.createObjectURL(event.target.files[0])
+                                                       image: img
+                                                       // image: URL.createObjectURL(event.target.files[0])
                                                    })
-                                               }} />
+                                               }}*/ />
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={() => {
