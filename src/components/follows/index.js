@@ -26,7 +26,7 @@ export const FollowList = ({users, refreshUser}) => {
     return (
         <div className="list-group">
             {
-                users.map(user => <User user={user} currentUser={currentUser} refreshUser={refreshUser}/>)
+                users.map(user => <User key={user.username} user={user} currentUser={currentUser} refreshUser={refreshUser}/>)
             }
         </div>
                 )

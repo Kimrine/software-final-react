@@ -26,3 +26,11 @@
 .pf-margin-left16{
     margin-left: 16px;
 }
+
+.pf-profile-image{
+    border-radius: 100px;
+    width: 133.5px;
+    height: 133.5px;
+    border: solid white 3px;
+    margin-left:20px;
+}

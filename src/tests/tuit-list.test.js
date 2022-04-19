@@ -34,7 +34,6 @@ test('tuit list renders static tuit array', () => {
     expect(linkElement2).toBeInTheDocument();
     expect(linkElement3).toBeInTheDocument();
 
-
 });
 
 test('tuit list renders async', async () => {

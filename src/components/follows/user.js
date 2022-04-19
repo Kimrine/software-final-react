@@ -19,7 +19,7 @@ const User = ({user,currentUser,refreshUser}) => {
         <li className="p-2 ttr-tuit list-group-item d-flex rounded-0">
             <div className="pe-2">
                 {
-                    <img src={`../images/${user.username}.jpg`}
+                    <img src={`${user.profilePhoto}`}
                          className="ttr-tuit-avatar-logo rounded-circle" width="50px" height="50px"/>
                 }
             </div>

@@ -3,18 +3,46 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import * as authService from "../../services/auth-service";
 
 const EditProfile = () => {
+    const {username} = useParams();
     const [profile, setProfile] = useState({});
     const [updateUser,setUpdateUser] = useState({});
     const navigate = useNavigate();
 
+    const imageData = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
+
+    const handleFileRead = async (event) => {
+        const file = event.target.files[0]
+        const img = await imageData(file)
+        setUpdateUser({
+                       ...updateUser,
+                          profilePhoto: img
+                   })
+    }
+
+
     useEffect(async () => {
-
         try {
-
+            console.log("edit profile-effect1");
             let user = await authService.profile();
-            user.dateOfBirth = user.dateOfBirth.substring(0,10).toString();
+            console.log(user);
+            console.log("edit profile-effect2");
+            if(user.dateOfBirth!==undefined){
+                user.dateOfBirth = user.dateOfBirth.substring(0,10).toString();
+            }
             setUpdateUser(user);
             setProfile(user);
+            console.log("edit-profile:"+user);
         } catch (e) {
         }
     }, []);
@@ -22,7 +50,7 @@ const EditProfile = () => {
     const editProfile = () => {
         authService.update(updateUser)
             .then(() =>
-                navigate(`/profile/${profile.username}`))
+                navigate(`/login`))
             .catch(e=>alert(e));
     }
 
@@ -40,8 +68,8 @@ const EditProfile = () => {
                   <img className="w-100" src="../images/nasa-profile-header.jpg"/>
                   <div className="bottom-0 left-0 position-absolute">
                       <div className="position-relative">
-                          <img className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px"
-                               src="../images/nasa-3.png"/>
+                          <img className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px pf-profile-image"
+                               src={`${profile.profilePhoto}`}/>
                       </div>
                   </div>
               </div>
@@ -100,13 +128,17 @@ const EditProfile = () => {
               <label htmlFor="password">Reset password</label>
               <input id="password"
                      className="p-0 form-control border-0"
-                     type="password"/>
+                     type="password"
+                     onChange={(e) =>
+                         setUpdateUser({...updateUser,password: e.target.value})}/>
             </div>
             <div className="border border-secondary rounded-3 p-2 mb-3">
               <label for="photo">Profile photo</label>
               <input id="photo"
                      className="p-0 form-control border-0"
-                     type="file"/>
+                     onChange={e=>handleFileRead(e)}
+                     type="file" name="myImage" accept="image/png, image/jpg"
+              />
             </div>
             <div className="border border-secondary rounded-3 p-2 mb-3">
               <label for="header">Header image</label>
@@ -147,4 +179,5 @@ const EditProfile = () => {
         </form></div>
     );
 };
+
 export default EditProfile;

@@ -28,9 +28,9 @@ const Profile = () => {
 
     useEffect(async () => {
         try {
-                console.log("Effect");
+                //console.log("Effect");
                 let user = await authService.profile();
-                console.log(user);
+                //console.log(user);
                 setCurrentUser(user);
                 //not login user
                 if(username!==user.username){
@@ -55,11 +55,10 @@ const Profile = () => {
     const refreshUser = async () => {
         let user = await authService.findUser(username);
         setProfile(user);
-
     }
 
+
     const followUser = async () => {
-        console.log(currentUser._id + ":" + profile._id);
 
         followService.userTogglesUserFollows(currentUser._id, profile._id)
             .then(refreshUser)
@@ -81,8 +80,8 @@ const Profile = () => {
                     <img className="w-100" src="../images/nasa-profile-header.jpg"/>
                     <div className="bottom-0 left-0 position-absolute">
                         <div className="position-relative">
-                            <img className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px"
-                                 src="../images/nasa-3.png"/>
+                            <img className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px pf-profile-image"
+                                 src={profile.profilePhoto===undefined?"":`${profile.profilePhoto}`}/>
                         </div>
                     </div>
                     {
@@ -124,8 +123,8 @@ const Profile = () => {
                             profile.biography && <span>{profile.biography}</span>
                         }
                         {
-                            profile.biography===null&&
-                            <span>There's space for everybody. Sparkles</span>
+                            profile.biography===undefined &&
+                            <span>Have a nice day!</span>
                         }
 
                     </p>

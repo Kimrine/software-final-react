@@ -12,8 +12,10 @@ const WhoToFollowList = () => {
     const navigate = useNavigate();
     const [currentUser,setCurrentUser] = useState({});
     const findUsers = async (uid) => {
-        await userService.findWhoToFollow(uid)
+        console.log("refresh who to follow:"+uid);
+        const newUsers = await userService.findWhoToFollow(uid)
             .then((users) => setWhos(users));
+        //this.forceUpdate();
     }
     
     const {pathname} = useLocation();
@@ -21,7 +23,7 @@ const WhoToFollowList = () => {
         try {
             let user = await authService.profile();
             setCurrentUser(user);
-            findUsers(user._id)
+            await findUsers(user._id);
         } catch (e) {
             navigate('/login');
         }
@@ -33,7 +35,7 @@ const WhoToFollowList = () => {
              className="d-none d-lg-block col-lg-4 col-xl-4 col-xxl-3">
             <div className="followCard bg-secondary bg-opacity-10 ttr-rounded-15px">
                 <h5>Who to follow</h5>
-                {whos.map && whos.map(who => <WhoToFollowListItem who={who} currentUser={currentUser} refreshUser={findUsers}/>)
+                {whos.map && whos.map(who => <WhoToFollowListItem key={who._id} who={who} currentUser={currentUser} refreshUser={findUsers}/>)
                 }
 
                 <a href="#">Show more</a>

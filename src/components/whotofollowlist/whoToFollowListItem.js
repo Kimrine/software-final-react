@@ -6,9 +6,9 @@ const WhoToFollowListItem = ({who,currentUser,refreshUser}) => {
 
     const followUser = async () => {
         console.log(currentUser+":"+who);
-        console.log(currentUser._id+":"+who._id);
-        followService.userTogglesUserFollows(currentUser._id, who._id)
-            .then(refreshUser)
+        console.log(currentUser.username+":"+who.username);
+        await followService.userTogglesUserFollows(currentUser._id, who._id)
+            .then(()=> refreshUser(currentUser._id))
             .catch(e => alert(e));
     }
 
@@ -16,7 +16,7 @@ const WhoToFollowListItem = ({who,currentUser,refreshUser}) => {
     return(
         <div className="tuiter-follow-recommendation-item">
             <div className="profile-summary">
-                <img src={`../images/${who.username}.jpg`}/>
+                <img src={`${who.profilePhoto}`}/>
                 <div>
                     <div><b>{who.username} </b><span className="fa-stack" style={{"fontSize": "0.5em"}}>
                           <i className="fas fa-circle fa-stack-2x"></i>
