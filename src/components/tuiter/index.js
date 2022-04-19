@@ -23,7 +23,6 @@ import MyHome from "../home/my-home";
 function Tuiter () {
 
 
-
   return(
     <HashRouter>
       <div className="container">
