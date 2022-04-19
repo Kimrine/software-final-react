@@ -62,6 +62,7 @@ const Home = () => {
     const handleFileRead = async (event) => {
         const file = event.target.files[0]
         const img = await imageData(file)
+        console.log(img)
         setNewTuit({
             ...newTuit,
             image: img
@@ -108,24 +109,9 @@ const Home = () => {
                                                                   ...newTuit,
                                                                   image: e.target.value
                                                               })}/>
-                                        <input type="file" name="myImage" accept="image/png, image/jpg"
+                                        <input type="file" name="myImage" accept="image/png, image/jpeg, image/jpg"
 
-                                               onChange={e => handleFileRead(e)}
-                                               /*onChange={(event) => {
-                                                   console.log(event.target.files[0]);
-                                                   let img = '';
-                                                   imageData(event.target.files[0], (result) => {
-                                                       img = result;
-                                                       console.log(img);
-                                                   });
-                                                   console.log(img);
-                                                   // const img = JSON.parse(event.target.files[0]);
-                                                   setNewTuit({
-                                                       ...newTuit,
-                                                       image: img
-                                                       // image: URL.createObjectURL(event.target.files[0])
-                                                   })
-                                               }}*/ />
+                                               onChange={e => handleFileRead(e)}/>
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={() => {
