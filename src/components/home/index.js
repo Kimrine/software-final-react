@@ -46,6 +46,29 @@ const Home = () => {
         service.createTuit('my', tuit).then(findTuits);
     };
 
+    const imageData = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
+
+    const handleFileRead = async (event) => {
+        const file = event.target.files[0]
+        const img = await imageData(file)
+        console.log(img)
+        setNewTuit({
+            ...newTuit,
+            image: img
+        })
+    }
+
     return (
         <div className="ttr-home">
             <div className="border border-bottom-0">
@@ -86,14 +109,9 @@ const Home = () => {
                                                                   ...newTuit,
                                                                   image: e.target.value
                                                               })}/>
-                                        <input type="file" name="myImage"
-                                               onChange={(event) => {
-                                                   console.log(event.target.files[0]);
-                                                   setNewTuit({
-                                                       ...newTuit,
-                                                       image: URL.createObjectURL(event.target.files[0])
-                                                   })
-                                               }} />
+                                        <input type="file" name="myImage" accept="image/png, image/jpeg, image/jpg"
+
+                                               onChange={e => handleFileRead(e)}/>
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={() => {
