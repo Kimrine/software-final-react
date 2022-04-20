@@ -1,0 +1,36 @@
+.pf-title{
+    font-size: 25px;
+    color:black;
+}
+
+.pf-handle{
+    color: grey;
+}
+
+.pf-font{
+    font: 14px arial, sans-serif;
+}
+
+.pf-float-left{
+    float: left;
+}
+
+.pf-clear{
+    clear: both;
+}
+
+.pf-margin16{
+    margin: 16px;
+}
+
+.pf-margin-left16{
+    margin-left: 16px;
+}
+
+.pf-profile-image{
+    border-radius: 100px;
+    width: 133.5px;
+    height: 133.5px;
+    border: solid white 3px;
+    margin-left:20px;
+}

@@ -22,7 +22,9 @@ const MOCKED_TUIT =
 /**
  * Test the dislike button display successfully
  */
-describe("render dislikes-button with static tuit", () => {render(
+describe("render dislikes-button with static tuit", () => {
+
+    render(
     <HashRouter>
         <Tuit tuit={MOCKED_TUIT}/>
     </HashRouter>);

@@ -34,7 +34,7 @@ const Tuit = ({tuit, deleteTuit, likeTuit,dislikeTuit}) => {
             <div className="pe-2">
                 {
                     tuit.postedBy &&
-                    <img src={`../images/${tuit.postedBy.username}.jpg`}
+                    <img src={`${tuit.postedBy.profilePhoto}`}
                          className="ttr-tuit-avatar-logo rounded-circle"/>
                 }
             </div>
@@ -45,7 +45,7 @@ const Tuit = ({tuit, deleteTuit, likeTuit,dislikeTuit}) => {
                 </Link>
                 <h2
                     className="fs-5">
-                    <Link to={`/profile/${tuit.postedBy.username}`}>
+                    <Link to={`/profile/${tuit.postedBy.username}`} className="text-decoration-none">
                         {tuit.postedBy && tuit.postedBy.username}
                     </Link>
                     @{tuit.postedBy && tuit.postedBy.username} -

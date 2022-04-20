@@ -15,9 +15,12 @@ import More from "../more";
 import {Login} from "../profile/login";
 import Signup from "../profile/signup";
 import * as service from "../../services/auth-service";
+import Following from "../profile/following";
+import Followers from "../profile/followers";
+import WhoToFollowList from "../whotofollowlist";
+import MyHome from "../home/my-home";
 
 function Tuiter () {
-
 
 
   return(
@@ -34,22 +37,28 @@ function Tuiter () {
               <Route path="/signup" element={<Signup/>}/>
               <Route path="/tuiter" element={<Home/>}/>
               <Route path="/tuiter/:uid" element={<Home/>}/>
-              <Route path="/home" element={<Home/>}/>
-              <Route path="/home/:uid" element={<Home/>}/>
+              <Route path="/home" element={<MyHome/>}/>
+              <Route path="/home/:uid" element={<MyHome/>}/>
               <Route path="/explore" element={<Explore/>}/>
               <Route path="/notifications" element={<Notifications/>}/>
               <Route path="/messages" element={<Messages/>}/>
               <Route path="/bookmarks" element={<Bookmarks/>}/>
               <Route path="/lists" element={<Lists/>}/>
               <Route path="/profile" element={<Profile/>}/>
+              <Route path="/profile/:username/edit" element={<EditProfile/>}/>
               <Route path="/profile/:username" element={<Profile/>}/>
+              <Route path="/profile/:username/following" element={<Following/>}/>
+              <Route path="/profile/:username/followers" element={<Followers/>}/>
               <Route path="/profile/:username/*" element={<Profile />}/>
-              <Route path="/profile/edit" element={<EditProfile/>}/>
+
               <Route path="/more" element={<More/>}/>
             </Routes>
           </div>
           <div className="ttr-right-column">
             <WhatsHappening/>
+            <div className="d-sm-none d-md-none d-lg-block col-lg-4 col-xl-4 col-xxl-3">
+              <WhoToFollowList/>
+            </div>
           </div>
         </div>
       </div>

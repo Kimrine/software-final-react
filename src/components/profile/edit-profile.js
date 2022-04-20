@@ -1,23 +1,75 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useNavigate, useParams} from "react-router-dom";
+import * as authService from "../../services/auth-service";
 
 const EditProfile = () => {
+    const {username} = useParams();
+    const [profile, setProfile] = useState({});
+    const [updateUser,setUpdateUser] = useState({});
+    const navigate = useNavigate();
+
+    const imageData = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
+
+    const handleFileRead = async (event) => {
+        const file = event.target.files[0]
+        const img = await imageData(file)
+        setUpdateUser({
+                       ...updateUser,
+                          profilePhoto: img
+                   })
+    }
+
+
+    useEffect(async () => {
+        try {
+            console.log("edit profile-effect1");
+            let user = await authService.profile();
+            console.log(user);
+            console.log("edit profile-effect2");
+            if(user.dateOfBirth!==undefined){
+                user.dateOfBirth = user.dateOfBirth.substring(0,10).toString();
+            }
+            setUpdateUser(user);
+            setProfile(user);
+            console.log("edit-profile:"+user);
+        } catch (e) {
+        }
+    }, []);
+
+    const editProfile = () => {
+        authService.update(updateUser)
+            .then(() =>
+                navigate(`/login`))
+            .catch(e=>alert(e));
+    }
+
     return(
       <div className="ttr-edit-profile">
           <div className="border border-bottom-0">
-              <Link to="/profile" className="btn btn-light rounded-pill fa-pull-left fw-bolder mt-2 mb-2 ms-2">
+              <Link to={`/profile/${profile.username}`} className="btn btn-light rounded-pill fa-pull-left fw-bolder mt-2 mb-2 ms-2">
                   <i className="fa fa-close"></i>
               </Link>
-              <Link to="/profile" className="btn btn-dark rounded-pill fa-pull-right fw-bolder mt-2 mb-2 me-2">
+              <button className="btn btn-dark rounded-pill fa-pull-right fw-bolder mt-2 mb-2 me-2" onClick={editProfile}>
                   Save
-              </Link>
+              </button>
               <h4 className="p-2 mb-0 pb-0 fw-bolder">Edit profile</h4>
               <div className="mb-5 position-relative">
                   <img className="w-100" src="../images/nasa-profile-header.jpg"/>
                   <div className="bottom-0 left-0 position-absolute">
                       <div className="position-relative">
-                          <img className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px"
-                               src="../images/nasa-3.png"/>
+                          <img className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px pf-profile-image"
+                               src={`${profile.profilePhoto}`}/>
                       </div>
                   </div>
               </div>
@@ -27,35 +79,48 @@ const EditProfile = () => {
               <label htmlFor="username">Username</label>
               <input id="username" title="Username" readOnly
                      className="p-0 form-control border-0"
-                     placeholder="alan" value="alan"/>
+                     value={`${profile.username}`}/>
             </div>
             <div className="border border-secondary rounded-3 p-2 mb-3">
               <label htmlFor="first-name">First name</label>
               <input id="first-name"
                      className="p-0 form-control border-0"
-                     placeholder="Alan"/>
+                     onChange={(e)=>
+                        setUpdateUser({...updateUser,firstName: e.target.value})}
+                     defaultValue={profile.firstName===undefined?``:`${profile.firstName}`}
+                       />
             </div>
             <div className="border border-secondary rounded-3 p-2 mb-3">
               <label htmlFor="last-name">Last name</label>
               <input id="last-name"
                      className="p-0 form-control border-0"
-                     placeholder="Turin"/>
+                     onChange={(e)=>
+                         setUpdateUser({...updateUser,lastName: e.target.value})}
+                     defaultValue={profile.lastName===undefined?``:`${profile.lastName}`}
+                        />
             </div>
             <div className="border border-secondary rounded-3 p-2 mb-3">
               <label htmlFor="bio">Bio</label>
               <textarea
-                className="p-0 form-control border-0"
-                id="bio"></textarea>
+                className="p-0 form-control border-0" id="bio"
+                onChange={(e)=>
+                    setUpdateUser({...updateUser,biography: e.target.value})}
+                defaultValue={profile.biography===undefined?``:`${profile.biography}`}>
+              </textarea>
             </div>
             <div className="border border-secondary rounded-3 p-2 mb-3">
               <label htmlFor="date-of-birth">Date of birth</label>
               <input id="date-of-birth"
                      className="p-0 form-control border-0"
-                     type="date" value="2003-01-02"/>
+                     onChange={(e) =>
+                         setUpdateUser({...updateUser,dateOfBirth: e.target.value})}
+                     type="date"
+                     defaultValue={profile.dateOfBirth===undefined?"1998-09-28":`${profile.dateOfBirth}`}
+                     required="required"/>
             </div>
             <div className="border border-secondary rounded-3 p-2 mb-3">
               <label htmlFor="email">Email</label>
-              <input id="email" placeholder="alan@cam.ac.uk"
+              <input id="email" placeholder={`${profile.email}`}
                      className="p-0 form-control border-0"
                      type="email"/>
             </div>
@@ -63,13 +128,17 @@ const EditProfile = () => {
               <label htmlFor="password">Reset password</label>
               <input id="password"
                      className="p-0 form-control border-0"
-                     type="password"/>
+                     type="password"
+                     onChange={(e) =>
+                         setUpdateUser({...updateUser,password: e.target.value})}/>
             </div>
             <div className="border border-secondary rounded-3 p-2 mb-3">
               <label for="photo">Profile photo</label>
               <input id="photo"
                      className="p-0 form-control border-0"
-                     type="file"/>
+                     onChange={e=>handleFileRead(e)}
+                     type="file" name="myImage" accept="image/png, image/jpg"
+              />
             </div>
             <div className="border border-secondary rounded-3 p-2 mb-3">
               <label for="header">Header image</label>
@@ -110,4 +179,5 @@ const EditProfile = () => {
         </form></div>
     );
 };
+
 export default EditProfile;

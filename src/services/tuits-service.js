@@ -10,9 +10,12 @@ const api = axios.create({
                          });
 
 
-
 export const findAllTuits = () =>
     api.get(TUITS_API)
+        .then(response => response.data);
+
+export const findTuitsByFollow = (uid) =>
+    api.get(`${TUITS_API}/${uid}/followTuits`)
         .then(response => response.data);
 
 export const findTuitById = (tid) =>

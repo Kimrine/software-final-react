@@ -28,6 +28,10 @@ export const findUserByCredentials = (credentials) =>
   axios.post(`${LOGIN_API}`, credentials)
     .then(response => response.data);
 
+export const findWhoToFollow = (uid) =>
+    axios.get(`${USERS_API}/follow/${uid}/whotofollow`)
+        .then(response=>response.data);
+
 const service = {
   findAllUsers
 }

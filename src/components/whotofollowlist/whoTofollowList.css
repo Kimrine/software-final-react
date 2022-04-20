@@ -1,0 +1,65 @@
+:root {
+    --wd-light-grey: #5b656b;
+    --wd-mid-grey: rgb(47, 51, 54);
+    --wd-dark-grey: #1F1F1F;
+    --wd-interactive-blue: rgb(29, 161, 242);
+}
+
+#tuiter-follow-recommendations .followCard {
+    width: fit-content;
+    color: black;
+    margin: 1em;
+    padding: 1em;
+}
+
+#tuiter-follow-recommendations h5 {
+    font-weight: 600;
+    margin-bottom: 1em;
+}
+
+#tuiter-follow-recommendations a {
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.tuiter-follow-recommendation-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5em;
+}
+
+.tuiter-follow-recommendation-item img {
+    width: 3em;
+    height: 3em;
+    border-radius: 1.5em;
+    object-fit: cover;
+}
+
+.tuiter-follow-recommendation-item div {
+    margin: 0 0.5em;
+    text-align: left;
+}
+
+.profile-summary {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.profile-summary img {
+    margin-right: 0.5em;
+}
+
+.profile-summary b {
+    color: black;
+}
+
+.tuiter-follow-recommendation-item .btn {
+    color: white;
+    background-color: var(--wd-interactive-blue);
+    padding: 0.5em 1.5em;
+    border-radius: 2em;
+    font-size: 14px;
+}

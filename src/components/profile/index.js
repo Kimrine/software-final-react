@@ -13,7 +13,9 @@ import {
     useLocation,
     useParams
 } from "react-router-dom";
-import * as service from "../../services/auth-service"
+import * as authService from "../../services/auth-service"
+import * as followService from "../../services/follow-service"
+
 import MyLikes from "./my-likes";
 import MyDislikes from "./my-dislikes";
 
@@ -25,12 +27,17 @@ const Profile = () => {
     const [currentUser,setCurrentUser] = useState({});
 
     useEffect(async () => {
-
         try {
-                let user = await service.profile();
+                //console.log("Effect");
+                let user = await authService.profile();
+                //console.log(user);
                 setCurrentUser(user);
+                //not login user
                 if(username!==user.username){
-                    user = await service.findUser(username);
+                    user = await authService.findUser(username);
+                }else{
+                    user = await authService.findUser(username);
+                    setCurrentUser(user);
                 }
 
                 setProfile(user);
@@ -38,11 +45,30 @@ const Profile = () => {
         } catch (e) {
             navigate('/login');
         }
-    }, []);
+    }, [username]);
+
     const logout = () => {
-        service.logout()
+        authService.logout()
             .then(() => navigate('/login'));
     }
+
+    const refreshUser = async () => {
+        let user = await authService.findUser(username);
+        setProfile(user);
+    }
+
+
+    const followUser = async () => {
+
+        followService.userTogglesUserFollows(currentUser._id, profile._id)
+            .then(refreshUser)
+            .catch(e => alert(e));
+    }
+
+    console.log("test:",profile);
+
+    const follow = "Follow";
+    const unfollow = "Unfollow";
     return(
         <div className="ttr-profile">
             <div className="border border-bottom-0">
@@ -54,17 +80,18 @@ const Profile = () => {
                     <img className="w-100" src="../images/nasa-profile-header.jpg"/>
                     <div className="bottom-0 left-0 position-absolute">
                         <div className="position-relative">
-                            <img className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px"
-                                 src="../images/nasa-3.png"/>
+                            <img className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px pf-profile-image"
+                                 src={profile.profilePhoto===undefined?"":`${profile.profilePhoto}`}/>
                         </div>
                     </div>
                     {
                         profile.username === currentUser.username
                         &&<div>
-                            <Link to="/profile/edit" className="mt-2 me-2 btn btn-large btn-light border border-secondary fw-bolder rounded-pill fa-pull-right">
+                            <Link to={`/profile/${profile.username}/edit`}
+                                  className="mt-2 me-2 btn btn-large btn-light border border-secondary fw-bolder rounded-pill fa-pull-right">
                                 Edit profile
                             </Link>
-                            <button onClick={logout} className="mt-2 float-end btn btn-warning rounded-pill">
+                            <button type="button" onClick={logout} className="mt-2 float-end btn btn-warning rounded-pill">
                                 Logout
                             </button>
                         </div>
@@ -73,8 +100,13 @@ const Profile = () => {
                     {
                         profile.username !== currentUser.username &&
                         <div>
-                            <button className="mt-2 me-2 float-end btn btn-warning rounded-pill">
-                                  Follow
+                            <button onClick={followUser} className="mt-2 me-3 float-end btn btn-primary rounded-pill">
+                                {
+                                    profile.followedByMe && unfollow
+                                }
+                                {
+                                    profile.followedByMe === false && follow
+                                }
                             </button>
                         </div>
 
@@ -87,7 +119,14 @@ const Profile = () => {
                     </h4>
                     <h6 className="pt-0">@{profile.username}</h6>
                     <p className="pt-2">
-                        There's space for everybody. Sparkles
+                        {
+                            profile.biography && <span>{profile.biography}</span>
+                        }
+                        {
+                            profile.biography===undefined &&
+                            <span>Have a nice day!</span>
+                        }
+
                     </p>
                     <p>
                         <i className="far fa-location-dot me-2"></i>
@@ -100,8 +139,8 @@ const Profile = () => {
                         <i className="far fa-calendar me-2"></i>
                         Joined December 2007
                     </p>
-                    <b>178</b> Following
-                    <b className="ms-4">51.1M</b> Followers
+                    <Link to={`/profile/${profile.username}/following` } className="text-decoration-none"><b>{profile.followings}</b> Following</Link>
+                    <Link to={`/profile/${profile.username}/followers`} className="text-decoration-none"><b className="ms-4">{profile.followers}</b> Followers</Link>
                     <ul className="mt-4 nav nav-pills nav-fill">
                         <li className="nav-item">
                             <Link to={`/profile/${profile.username}/mytuits`}
