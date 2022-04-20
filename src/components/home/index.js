@@ -20,6 +20,8 @@ const Home = () => {
     const [tuits, setTuits] = useState([]);
     const [newTuit, setNewTuit] = useState({tuit: ''});
 
+    const [fileUrl, setFileUrl] = useState(null);
+
     const findTuits = () =>
         service.findAllTuits()
             .then(tuits => setTuits(tuits));
@@ -61,6 +63,8 @@ const Home = () => {
 
     const handleFileRead = async (event) => {
         const file = event.target.files[0]
+        const imageUrl = URL.createObjectURL(file);
+        setFileUrl(imageUrl);
         const img = await imageData(file)
         setNewTuit({
             ...newTuit,
@@ -126,6 +130,8 @@ const Home = () => {
                                                        // image: URL.createObjectURL(event.target.files[0])
                                                    })
                                                }}*/ />
+                                    <img src = {fileUrl} width={200}/>
+
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={() => {
