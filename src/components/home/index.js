@@ -47,6 +47,28 @@ const Home = () => {
         service.createTuit('my', tuit).then(findTuits);
     };
 
+    const imageData = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
+
+    const handleFileRead = async (event) => {
+        const file = event.target.files[0]
+        const img = await imageData(file)
+
+        setImages((arr) =>
+            [...arr, img]
+        )}
+
+
     return (
         <div className="ttr-home">
             <div className="border border-bottom-0">
@@ -88,12 +110,7 @@ const Home = () => {
                                                                   [...arr, url]
                                                    )}}/>
                                         <input type="file" name="myImage" accept="image/gif,image/jpeg,image/jpg,image/png" multiple
-                                               onChange={(event) => {
-                                                   console.log(event.target.files[0]);
-                                                   const url = URL.createObjectURL(event.target.files[0]);
-                                                   setImages((arr) =>
-                                                                 [...arr, url]
-                                                   )}}/>
+                                               onChange={e => handleFileRead(e)}/>
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={() => {
