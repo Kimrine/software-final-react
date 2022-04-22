@@ -4,6 +4,7 @@
 import Tuits from "../tuits";
 import * as service from "../../services/tuits-service";
 import {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 
 /**
  * Implements the my-media screen for display all tuits with medias posted by a specific user
@@ -11,9 +12,11 @@ import {useEffect, useState} from "react";
  * @returns {JSX.Element}
  */
 const MyMedias = () => {
+
+    const {username} = useParams();
     const [mediaTuits, setMediaTuis] = useState([]);
     const findMediasIHave = () =>
-        service.findAllTuitsHaveMediasByUser("me")
+        service.findAllTuitsHaveMediasByUser(username)
             .then((tuits) => setMediaTuis(tuits));
     useEffect(findMediasIHave, []);
 
