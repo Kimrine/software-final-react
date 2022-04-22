@@ -11,3 +11,52 @@
     content: "";
     padding-top: 56.25%;
 }
+
+.tt-images{
+    object-fit: cover;
+    height: 300px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+    float: left;
+    width: 50%;
+    padding: 5px;
+    overflow: hidden;
+    object-fit: cover;
+
+}
+
+/* Clear floats after image containers */
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.img-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.center-cropped {
+    width: 100px;
+    height: 100px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+/* Set the image to fill its parent and make transparent */
+.center-cropped-img {
+    min-height: 100%;
+    min-width: 100%;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    /* IE 5-7 */
+    filter: alpha(opacity=0);
+    /* modern browsers */
+    opacity: 0;
+}

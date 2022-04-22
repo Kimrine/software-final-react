@@ -4,6 +4,7 @@ import * as service from "../../services/tuits-service";
 import {useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
 import {Button, Modal} from 'react-bootstrap';
+import Carousel from 'react-bootstrap/Carousel'
 
 const Home = () => {
     const location = useLocation();
@@ -19,6 +20,8 @@ const Home = () => {
 
     const [tuits, setTuits] = useState([]);
     const [newTuit, setNewTuit] = useState({tuit: ''});
+    const [images, setImages] = useState([]);
+    const [fileUrl, setFileUrl] = useState([]);
 
     const findTuits = () =>
         service.findAllTuits()
@@ -35,7 +38,7 @@ const Home = () => {
     const createNewTuit = (newTuit) => {
         const tuit = {
             ...newTuit,
-            //_id: (new Date()).getTime() + '',
+            image: images,
             stats: {
                 replies: 0,
                 retuits: 0,
@@ -62,11 +65,20 @@ const Home = () => {
     const handleFileRead = async (event) => {
         const file = event.target.files[0]
         const img = await imageData(file)
-        console.log(img)
-        setNewTuit({
-            ...newTuit,
-            image: img
-        })
+        const imageUrl = URL.createObjectURL(file);
+        setFileUrl((arr) => [...arr, imageUrl]);
+        setImages((arr) =>
+            [...arr, img]
+        )}
+
+    const getPreview = async (event) => {
+        const file = event.target.value
+        setFileUrl((arr) => [...arr, file]);
+
+        const url = event.target.value;
+        setImages((arr) =>
+            [...arr, url]
+        )
     }
 
     return (
@@ -87,6 +99,13 @@ const Home = () => {
                                                      tuit: e.target.value
                                                  })}>
                     </textarea>
+                        <Carousel>
+                            {images.map && images.map(image =>
+                                <Carousel.Item>
+                                    <img src={image}
+                                         className=" tt-images mt-2 w-100 ttr-rounded-15px"/>
+                                </Carousel.Item>)}
+                        </Carousel>
                         <div className="row">
 
                             <div className="col-10 ttr-font-size-150pc text-primary">
@@ -104,13 +123,8 @@ const Home = () => {
                                     <Modal.Body>
                                         <input className="w-100"
                                                placeholder="Enter link"
-                                               onChange={(e) =>
-                                                   setNewTuit({
-                                                                  ...newTuit,
-                                                                  image: e.target.value
-                                                              })}/>
-                                        <input type="file" name="myImage" accept="image/png, image/jpeg, image/jpg"
-
+                                               onChange={e => getPreview(e)}/>
+                                        <input type="file" name="myImage" accept="image/gif,image/jpeg,image/jpg,image/png" multiple
                                                onChange={e => handleFileRead(e)}/>
                                     </Modal.Body>
                                     <Modal.Footer>
