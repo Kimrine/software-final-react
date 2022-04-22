@@ -4,7 +4,6 @@
  */
 
 import {createUser, deleteUsersByUsername,findUserById} from "../services/users-service";
-import {createTuit, deleteTuit, findAllTuits, findTuitById} from "../services/tuits-service";
 import{userTogglesUserFollows,findAllUsersFollowers,findAllUsersFollowing} from "../services/follow-service"
 
 /**
