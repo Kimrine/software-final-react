@@ -65,8 +65,8 @@ const Home = () => {
     const handleFileRead = async (event) => {
         const file = event.target.files[0]
         const img = await imageData(file)
-        const imageUrl = URL.createObjectURL(file);
-        setFileUrl((arr) => [...arr, imageUrl]);
+        // const imageUrl = URL.createObjectURL(file);
+        // setFileUrl((arr) => [...arr, imageUrl]);
         setImages((arr) =>
             [...arr, img]
         )}
@@ -79,6 +79,11 @@ const Home = () => {
         setImages((arr) =>
             [...arr, url]
         )
+    }
+    const deleteImage = (file) => {
+        const newFiles = images.filter(f => f !== file);
+        setImages(newFiles);
+        alert("The image is deleted")
     }
 
     return (
@@ -99,13 +104,32 @@ const Home = () => {
                                                      tuit: e.target.value
                                                  })}>
                     </textarea>
-                        <Carousel>
-                            {images.map && images.map(image =>
-                                <Carousel.Item>
-                                    <img src={image}
-                                         className=" tt-images mt-2 w-100 ttr-rounded-15px"/>
-                                </Carousel.Item>)}
-                        </Carousel>
+                        {
+                            images.length > 0 &&
+                            images.map((image, nth) =>
+                                <span key={nth} className={"badge bg-secondary me-3 position-relative"}>
+                                    {image.name}
+                                    <img src={image} className=" tt-images mt-2 w-100 ttr-rounded-15px"/>
+                                    <span
+                                        className={"position-absolute top-0 start-100 badge rounded-pill bg-dark"}
+                                        onClick={() => deleteImage(image)}>
+                                        <i className={"fa-solid fa-xmark"}/>
+                                    </span>
+                                </span>)}
+                        {/*<Carousel>*/}
+                        {/*    {images.map && images.map((image, nth) =>*/}
+                        {/*        <Carousel.Item>*/}
+                        {/*            <img src={image}*/}
+                        {/*                 className=" tt-images mt-2 w-100 ttr-rounded-15px"/>*/}
+                        {/*            <span key={nth} className={"badge bg-secondary me-3 position-relative"}>*/}
+                        {/*            {image.name || image}*/}
+                        {/*            <span*/}
+                        {/*                className={"position-absolute top-0 start-0 badge rounded-pill bg-dark"}*/}
+                        {/*                onClick={(image) => deleteImage(image)}>*/}
+                        {/*                <i className={"fa-solid fa-xmark"}/>*/}
+                        {/*            </span></span>*/}
+                        {/*        </Carousel.Item>)}*/}
+                        {/*</Carousel>*/}
                         <div className="row">
 
                             <div className="col-10 ttr-font-size-150pc text-primary">
