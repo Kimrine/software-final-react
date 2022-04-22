@@ -61,12 +61,15 @@ const Home = () => {
     }
 
     const handleFileRead = async (event) => {
-        const file = event.target.files[0]
-        const img = await imageData(file)
+        const file = event.target.files
+        for (let i = 0; i < file.length; i++) {
+            const img = await imageData(file[i])
 
-        setImages((arr) =>
-            [...arr, img]
-        )}
+            setImages((arr) =>
+                [...arr, img]
+            )
+        }
+    }
 
 
     return (
