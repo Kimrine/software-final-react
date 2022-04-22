@@ -41,3 +41,13 @@ export const deleteTuit = (tid) =>
     api.delete(`${TUITS_API}/${tid}`)
         .then(response => response.data);
 
+/**
+ * Find all tuits with media posted by a user
+ *
+ * @param uid the id of user
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const findAllTuitsHaveMediasByUser = (uid) =>
+    api.get(`${USERS_API}/${uid}/media`)
+        .then(response => response.data);
+
