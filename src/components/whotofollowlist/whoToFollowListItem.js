@@ -1,6 +1,7 @@
 import React from "react";
 import "./whoTofollowList.css"
 import * as followService from "../../services/follow-service";
+import {Link} from "react-router-dom";
 
 const WhoToFollowListItem = ({who,currentUser,refreshUser}) => {
 
@@ -18,7 +19,11 @@ const WhoToFollowListItem = ({who,currentUser,refreshUser}) => {
             <div className="profile-summary">
                 <img src={`${who.profilePhoto}`}/>
                 <div>
-                    <div><b>{who.username} </b><span className="fa-stack" style={{"fontSize": "0.5em"}}>
+                    <div>
+                        <Link to={`/profile/${who.username}`} className="text-decoration-none">
+                            <b>{who.username} </b>
+                        </Link>
+                        <span className="fa-stack" style={{"fontSize": "0.5em"}}>
                           <i className="fas fa-circle fa-stack-2x"></i>
                           <i className="fas fa-check fa-stack-1x fa-inverse"></i>
                         </span></div>
