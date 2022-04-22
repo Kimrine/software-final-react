@@ -77,7 +77,7 @@ const Profile = () => {
                     <i className="fa fa-badge-check text-primary"></i></h4>
                 <span className="ps-2">67.6K Tuits</span>
                 <div className="mb-5 position-relative">
-                    <img className="w-100" src="../images/nasa-profile-header.jpg"/>
+                    <img className="w-100 pf-header-image" src={profile.headerImage===undefined?"../images/nasa-profile-header.jpg":`${profile.headerImage}`}/>
                     <div className="bottom-0 left-0 position-absolute">
                         <div className="position-relative">
                             <img className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px pf-profile-image"
@@ -134,10 +134,11 @@ const Profile = () => {
                         <i className="far fa-link ms-3 me-2"></i>
                         <a href="nasa.gov" className="text-decoration-none">nasa.gov</a>
                         <i className="far fa-balloon ms-3 me-2"></i>
-                        Born October 1, 1958
+                        Born {profile.dateOfBirth===undefined&&<span>1958-10-1</span>}
+                        {profile.dateOfBirth!==undefined&&<span>{profile.dateOfBirth.substring(0,10)}</span>}
                         <br/>
                         <i className="far fa-calendar me-2"></i>
-                        Joined December 2007
+                        Joined {profile.joined!==undefined&&<span>{profile.joined.substring(0,10)}</span>}
                     </p>
                     <Link to={`/profile/${profile.username}/following` } className="text-decoration-none"><b>{profile.followings}</b> Following</Link>
                     <Link to={`/profile/${profile.username}/followers`} className="text-decoration-none"><b className="ms-4">{profile.followers}</b> Followers</Link>

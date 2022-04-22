@@ -21,28 +21,29 @@ const EditProfile = () => {
         })
     }
 
-    const handleFileRead = async (event) => {
+    const handleProfilePhoto = async (event) => {
         const file = event.target.files[0]
         const img = await imageData(file)
-        setUpdateUser({
-                       ...updateUser,
-                          profilePhoto: img
-                   })
+        setUpdateUser({...updateUser,
+                          profilePhoto: img})
+    }
+
+    const handleHeaderPhoto = async (event) => {
+        const file = event.target.files[0]
+        const img = await imageData(file)
+        setUpdateUser({...updateUser,
+                          headerImage: img})
     }
 
 
     useEffect(async () => {
         try {
-            console.log("edit profile-effect1");
             let user = await authService.profile();
-            console.log(user);
-            console.log("edit profile-effect2");
             if(user.dateOfBirth!==undefined){
                 user.dateOfBirth = user.dateOfBirth.substring(0,10).toString();
             }
             setUpdateUser(user);
             setProfile(user);
-            console.log("edit-profile:"+user);
         } catch (e) {
         }
     }, []);
@@ -65,7 +66,7 @@ const EditProfile = () => {
               </button>
               <h4 className="p-2 mb-0 pb-0 fw-bolder">Edit profile</h4>
               <div className="mb-5 position-relative">
-                  <img className="w-100" src="../images/nasa-profile-header.jpg"/>
+                  <img className="w-100 pf-header-image" src={profile.headerImage===undefined?"../images/nasa-profile-header.jpg":`${profile.headerImage}`}/>
                   <div className="bottom-0 left-0 position-absolute">
                       <div className="position-relative">
                           <img className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px pf-profile-image"
@@ -136,7 +137,7 @@ const EditProfile = () => {
               <label for="photo">Profile photo</label>
               <input id="photo"
                      className="p-0 form-control border-0"
-                     onChange={e=>handleFileRead(e)}
+                     onChange={e=> handleProfilePhoto(e)}
                      type="file" name="myImage" accept="image/png, image/jpg"
               />
             </div>
@@ -144,13 +145,14 @@ const EditProfile = () => {
               <label for="header">Header image</label>
               <input id="header"
                      className="p-0 form-control border-0"
-                     type="file"/>
+                     onChange={e=> handleHeaderPhoto(e)}
+                     type="file" name="myImage" accept="image/png, image/jpg"/>
             </div>
             <div className="border border-secondary rounded-3 p-2 mb-3">
               <label for="account">Select account</label>
               <select
                 className="p-0 form-control border-0"
-                id="account">
+                id="account" >
                   <option>Personal account</option>
                   <option selected>Academic account</option>
               </select>
