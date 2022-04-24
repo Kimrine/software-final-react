@@ -108,16 +108,17 @@ const Home = () => {
                         {
                             images.length > 0 &&
                             images.map((image, nth) =>
+                                <span className={"badge position-relative"}><div className={"preview"}>
                                  <span key={nth} className={"badge bg-secondary me-3 position-relative"}>
                                      {image.name}
-                                    <img src={image} className=" tt-images mt-2 w-100 ttr-rounded-15px" width={10} height={10}/>
-                                    <span
+                                    <div className={"preview-1"}><img src={image} className="tt-images mt-2 w-100 ttr-rounded-15px" width={10} height={10}/></div>
+                                     <span
                                         className={"position-absolute top-0 start-100 badge rounded-pill bg-dark"}
                                         onClick={() => deleteImage(image)}>
                                         <i className={"fa-solid fa-xmark"}/>
                                     </span>
-                                 </span> )
-                            }
+                                 </span> </div></span> )
+                        }
                         <div className="row">
 
                             <div className="col-10 ttr-font-size-150pc text-primary">
