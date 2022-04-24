@@ -34,12 +34,12 @@ const User = ({user,currentUser,refreshUser}) => {
             </div>
             <div className="pe-2">
                 {   currentUser.username!==user.username&&
-                    <button onClick={followUser} className="mt-2 me-3 float-end btn btn-primary rounded-pill ">
+                    <button onClick={followUser} className="mt-2 me-3 float-end btn btn-primary rounded-pill follow-btn">
                         {
-                            user.followedByMe && unfollow
+                            user.followedByMe && <span>Unfollow</span>
                         }
                         {
-                            user.followedByMe===false && follow
+                            user.followedByMe===false && <span>Follow</span>
                         }
                     </button>
                 }

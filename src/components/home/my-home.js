@@ -6,8 +6,7 @@ import {useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
 
 const MyHome = () => {
-    const location = useLocation();
-    const {uid} = useParams();
+
     const [tuits, setTuits] = useState([]);
     const [tuit, setTuit] = useState('');
     const [profile,setProfile] = useState('');
@@ -16,14 +15,20 @@ const MyHome = () => {
         tuitService.findTuitsByFollow(profile._id)
             .then(tuits => setTuits(tuits));
 
-    useEffect(() => {
+    useEffect(async () => {
         let isMounted = true;
-        let profile = authService.profile();
+        let profile = await authService.profile();
         setProfile(profile);
         findTuits();
-        return () => {isMounted = false;}
+        return () => {
+            isMounted = false;
+        }
     }, []);
 
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     const createTuit = () =>
         tuitService.createTuit('my', {tuit})
             .then(findTuits)
@@ -35,7 +40,7 @@ const MyHome = () => {
                 <div className="d-flex">
                     <div className="p-2">
                         <img className="ttr-width-50px rounded-circle"
-                             src="../images/nasa-logo.jpg"/>
+                             src={`${profile.profilePhoto}`} />
                     </div>
                     <div className="p-2 w-100">
             <textarea
@@ -54,8 +59,8 @@ const MyHome = () => {
                             </div>
                             <div className="col-2">
                                 <a onClick={createTuit}
-                                   className={`btn btn-primary rounded-pill fa-pull-right
-                                fw-bold ps-4 pe-4`}>
+                                   className="btn btn-primary rounded-pill fa-pull-right
+                                fw-bold ps-4 pe-4">
                                     Tuit
                                 </a>
                             </div>

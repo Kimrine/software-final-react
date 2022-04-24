@@ -29,44 +29,47 @@ const Profile = () => {
 
     useEffect(async () => {
         try {
-                //console.log("Effect");
                 let user = await authService.profile();
-                //console.log(user);
                 setCurrentUser(user);
-                //not login user
                 if(username!==user.username){
                     user = await authService.findUser(username);
                 }else{
                     user = await authService.findUser(username);
                     setCurrentUser(user);
                 }
-
                 setProfile(user);
-
         } catch (e) {
             navigate('/login');
         }
     }, [username]);
 
+    /**
+     * Current user logout
+     */
     const logout = () => {
         authService.logout()
             .then(() => navigate('/login'));
     }
 
+    /**
+     * A call back method to refresh user's information
+     * @returns {Promise<void>}
+     */
     const refreshUser = async () => {
         let user = await authService.findUser(username);
         setProfile(user);
     }
 
-
+    /**
+     * If enter in others profile, current user follow this user
+     * @returns {Promise<void>}
+     */
     const followUser = async () => {
-
         followService.userTogglesUserFollows(currentUser._id, profile._id)
             .then(refreshUser)
             .catch(e => alert(e));
     }
 
-    console.log("test:",profile);
 
     const follow = "Follow";
     const unfollow = "Unfollow";

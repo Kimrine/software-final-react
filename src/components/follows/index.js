@@ -29,8 +29,6 @@ export const FollowList = ({users, refreshUser}) => {
                 users.map(user => <User key={user.username} user={user} currentUser={currentUser} refreshUser={refreshUser}/>)
             }
         </div>
-                )
-
-
+    )
 
 }

@@ -1,21 +1,21 @@
+/**
+ * @file test for follow list
+ */
 import {FollowList} from "../components/follows/index"
 import {screen, render, waitFor} from "@testing-library/react";
 import {HashRouter} from "react-router-dom";
-import {findAllUsersFollowers, findAllUsersFollowing} from "../services/follow-service";
-import axios from "axios";
-import {api} from "../services/like-service";
-import MyDislikes from "../components/profile/my-dislikes";
+import {findAllUsersFollowing} from "../services/follow-service";
+import {api} from "../services/follow-service";
 import React from "react";
-import {UserList} from "../components/profile/user-list";
-import Following from "../components/profile/following";
-
-//jest.mock('axios');
 
 const MOCKED_USERS = [
     {username: 'ellen_ripley', password: 'lv426', email: 'repley@weyland.com',followedByMe:true},
     {username: 'sarah_conor', password: 'illbeback', email: 'sarah@bigjeff.com',followedByMe:true},
 ]
 
+/**
+ * Testing follow list could renders static user array
+ */
 test('follow list renders static user array', () => {
     render(
         <HashRouter>
@@ -27,70 +27,45 @@ test('follow list renders static user array', () => {
     expect(linkElement2).toBeInTheDocument();
 });
 
-test('user list renders async', async () => {
-    const users = await findAllUsers();
-
+/**
+ * Testing following user list could renders async
+ */
+test('follow user list renders async', async () => {
+    const users = await findAllUsersFollowing("kk");
     render(
         <HashRouter>
-            <UserList users={users}/>
+            <FollowList users={users}/>
         </HashRouter>);
-    const linkElement = screen.getByText(/alice/i);
+    const linkElement = screen.getByText(/@alice/i);
     expect(linkElement).toBeInTheDocument();
 })
-
-
-test('user list renders mocked', async () => {
-    const mock = jest.spyOn(axios, 'get');
-
-    mock.mockImplementation(() =>
-                                Promise.resolve({ data:MOCKED_USERS }));
-
-    render(
-        <HashRouter>
-            <Following />
-        </HashRouter>);
-
-    const user = screen.getByText(/@ellen_ripley/i);
-    expect(user).toBeInTheDocument();
-});
 
 /**
  * Testing following screen renders mocked
  */
-describe('my following screen renders mocked ', () => {
-    const mock = jest.spyOn(api, 'get');
+test('my following screen renders mocked', async () => {
 
-    afterEach(()=> {
-        mock.mockRestore();
-    })
-
-    test('my following screen renders mocked', async () => {
-        // TODO: implement this
+        const mock = jest.spyOn(api, 'get');
 
         mock.mockImplementation(() =>
                                     Promise.resolve({data: MOCKED_USERS}));
 
+        const users = await findAllUsersFollowing("kk");
+
+
         render(
             <HashRouter>
-                <MyDislikes />
+                <FollowList users={users} />
             </HashRouter>
-
         );
 
         await waitFor(() => {
-            MOCKED_TUITS.map(tuit => {
-                let username = tuit.postedBy.username;
-                const dislikesCount = tuit.stats.dislikes;
+            MOCKED_USERS.map(user => {
+                let username = user.username;
 
-                const nameEle = screen.getAllByText(username, {exact: false});
-                const tuitEle = screen.getAllByText(tuit.tuit, {exact: false});
-
+                const nameEle = screen.getAllByText("@"+username, {exact: false});
                 nameEle.forEach(e => expect(e).toBeInTheDocument());
-                tuitEle.forEach(e => expect(e).toBeInTheDocument());
-
-                expect(screen.getByText(dislikesCount)).toBeInTheDocument();
 
             })
         })
-    });
 });

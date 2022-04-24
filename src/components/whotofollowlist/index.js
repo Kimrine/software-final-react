@@ -11,14 +11,19 @@ const WhoToFollowList = () => {
     const [whos,setWhos] = useState([]);
     const navigate = useNavigate();
     const [currentUser,setCurrentUser] = useState({});
+
+    /**
+     * A call back function for find updated users that current user haven't follow.
+     * @param uid of the current user
+     * @returns {Promise<void>} JSON contains Users' profile or error status
+     */
     const findUsers = async (uid) => {
-        console.log("refresh who to follow:"+uid);
         const newUsers = await userService.findWhoToFollow(uid)
             .then((users) => setWhos(users));
-        //this.forceUpdate();
     }
     
     const {pathname} = useLocation();
+
     useEffect(async () => {
         try {
             let user = await authService.profile();
