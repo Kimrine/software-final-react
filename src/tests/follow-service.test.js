@@ -1,8 +1,6 @@
 /**
- * @jest-environment node
- * @file Implements tests for follow API
+ * @file test for follow-service
  */
-
 import {createUser, deleteUsersByUsername,findUserById} from "../services/users-service";
 import{userTogglesUserFollows,findAllUsersFollowers,findAllUsersFollowing} from "../services/follow-service"
 

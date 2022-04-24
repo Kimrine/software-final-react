@@ -1,13 +1,17 @@
 import React, {useEffect, useState} from "react";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import * as authService from "../../services/auth-service";
 
 const EditProfile = () => {
-    const {username} = useParams();
     const [profile, setProfile] = useState({});
     const [updateUser,setUpdateUser] = useState({});
     const navigate = useNavigate();
 
+    /**
+     * Handle the file and store it to server
+     * @param file
+     * @returns {Promise<unknown>} the store address of file of error information
+     */
     const imageData = (file) => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
@@ -21,6 +25,11 @@ const EditProfile = () => {
         })
     }
 
+    /**
+     * Update the user's profile photo from local image
+     * @param event
+     * @returns {Promise<void>}
+     */
     const handleProfilePhoto = async (event) => {
         const file = event.target.files[0]
         const img = await imageData(file)
@@ -28,6 +37,11 @@ const EditProfile = () => {
                           profilePhoto: img})
     }
 
+    /**
+     * Update the user's header photo from local image
+     * @param event
+     * @returns {Promise<void>}
+     */
     const handleHeaderPhoto = async (event) => {
         const file = event.target.files[0]
         const img = await imageData(file)
@@ -48,6 +62,9 @@ const EditProfile = () => {
         }
     }, []);
 
+    /**
+     * Update user information
+     */
     const editProfile = () => {
         authService.update(updateUser)
             .then(() =>

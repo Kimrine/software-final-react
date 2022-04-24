@@ -5,14 +5,15 @@ import {Link} from "react-router-dom";
 
 const WhoToFollowListItem = ({who,currentUser,refreshUser}) => {
 
+    /**
+     * Follow a user by click the button of who to follow list item
+     * @returns {Promise<void>} Status of whether follow is successfully
+     */
     const followUser = async () => {
-        console.log(currentUser+":"+who);
-        console.log(currentUser.username+":"+who.username);
         await followService.userTogglesUserFollows(currentUser._id, who._id)
             .then(()=> refreshUser(currentUser._id))
             .catch(e => alert(e));
     }
-
 
     return(
         <div className="tuiter-follow-recommendation-item">

@@ -11,7 +11,6 @@ export const Login = () => {
             .catch(e => alert(e));
     }
 
-
     return (
         <div>
             <h1>Login</h1>
