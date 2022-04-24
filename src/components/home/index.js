@@ -35,7 +35,6 @@ const Home = () => {
     const createNewTuit = (newTuit) => {
         const tuit = {
             ...newTuit,
-            //_id: (new Date()).getTime() + '',
             stats: {
                 replies: 0,
                 retuits: 0,

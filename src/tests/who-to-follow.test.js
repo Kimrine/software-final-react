@@ -3,16 +3,13 @@ import {screen, render} from "@testing-library/react";
 import {HashRouter} from "react-router-dom";
 import {findAllUsers, findWhoToFollow} from "../services/users-service";
 import axios from "axios";
-import WhoToFollowList from "../components/whotofollowlist";
 import WhoToFollowListItem from "../components/whotofollowlist/whoToFollowListItem";
 import React from "react";
-import {UserList} from "../components/profile/user-list";
 
 //jest.mock('axios');
 
 const MOCKED_USER =
     {username:'alice',password:'alice123',email: 'alice@wonderland.com', _id: "u123"};
-
 
 
 
@@ -32,9 +29,7 @@ test('who-to-follow list renders static user', () => {
 });
 
 test('who-to-follow renders async', async () => {
-    // TODO: implement this
     const whos = await findWhoToFollow("624772abadd697acd1f87fbf");
-
 
     render(
         <HashRouter>
@@ -44,17 +39,19 @@ test('who-to-follow renders async', async () => {
         })
         </HashRouter>);
 
-    const linkElement  = screen.getByText(/@alice/i)
+    const linkElement  = screen.getByText(/@tangk/i)
     expect(linkElement).toBeInTheDocument();
 });
 
 test('follow list renders mocked', async () => {
+
     const mock = jest.spyOn(axios, 'get');
 
     mock.mockImplementation(() =>
                                 Promise.resolve({ data: {who: MOCKED_USER} }));
     const response = await findWhoToFollow("624772abadd697acd1f87fbf");
     const who = response.who;
+
     render(
         <HashRouter>
             <WhoToFollowListItem who={who}/>

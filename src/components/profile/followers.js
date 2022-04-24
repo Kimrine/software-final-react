@@ -9,12 +9,14 @@ const Followers = () => {
     const location = useLocation();
     const [followersUser,setFollowersUsers] = useState([]);
 
+    /**
+     * Find all users that following the user
+     * @returns {Promise<AxiosResponse<*>>} JSON contains Users' profile or error status
+     */
     const findUserFollowers = () => service.findAllUsersFollowers(username)
         .then((users)=>setFollowersUsers(users));
 
     useEffect(findUserFollowers,[]);
-    console.log(followersUser.map(user=>user));
-
 
     return(
         <div>
@@ -43,12 +45,8 @@ const Followers = () => {
             </ul>
 
             <FollowList users={followersUser} refreshUser={findUserFollowers} />
-
         </div>
-
-
     )
-
 
 };
 

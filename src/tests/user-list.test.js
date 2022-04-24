@@ -22,7 +22,6 @@ test('user list renders static user array', () => {
 
 test('user list renders async', async () => {
   const users = await findAllUsers();
-
   render(
       <HashRouter>
         <UserList users={users}/>
