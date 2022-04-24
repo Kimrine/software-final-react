@@ -1,10 +1,10 @@
+/**
+ * @file Implements tests for my-media screen
+ */
 import Tuits from "../components/tuits";
 import {screen, render} from "@testing-library/react";
 import {HashRouter} from "react-router-dom";
-import {findAllTuits} from "../services/tuits-service";
-import axios from "axios";
 
-//jest.mock('axios');
 
 const MOCKED_USERS = [
     {username:'alice',password:'alice123',email: 'alice@wonderland.com', _id: "u123"},
@@ -24,30 +24,34 @@ const MOCKED_TUITS = [
     {   _id: "t125", tuit: "charlie's tuit", postedBy: "u125", youtube: video1 }
 ];
 
-
-describe('multi-images', () => {
+/**
+ * Testing multiple images source
+ */
+describe('multiple images source', () => {
     test('image src', () => {
         render(
             <HashRouter>
                 <Tuits tuits={MOCKED_TUITS}/>
             </HashRouter>);
-        const image1 = screen.getByRole('img');
-        const image2 = screen.getByRole('img');
-        const image3 = screen.getByRole('img');
 
-        expect(image1).toHaveAttribute('src', img1);
-        expect(image2).toHaveAttribute('src', img2);
-        expect(image3).toHaveAttribute('src', img3);
+        const displayedImage = screen.getAllByAltText("t-img") ;
+        expect(displayedImage[0].src).toContain(img1);
+        expect(displayedImage[1].src).toContain(img2);
+        expect(displayedImage[2].src).toContain(img3);
+
     });
 });
 
-describe('video', () => {
+/**
+ * Testing video source
+ */
+describe('video source', () => {
     test('video src', () => {
         render(
             <HashRouter>
                 <Tuits tuits={MOCKED_TUITS}/>
             </HashRouter>);
-        const video = screen.getByRole('iframe');
+        const video = screen.getByTitle('YouTube video player');
 
         expect(video).toHaveAttribute('src', video1);
 

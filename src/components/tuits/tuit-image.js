@@ -1,3 +1,6 @@
+/**
+ * @file TuitImage component for display image(s) of a tuit
+\ */
 import React, {useState} from "react";
 import {Button, Modal} from "react-bootstrap";
 import Carousel from 'react-bootstrap/Carousel'
@@ -6,22 +9,22 @@ export const TuitImage = ({images = []}) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const [img, setImg] = useState();
-
     const handleShow = () => setShow(true);
 //className=" position-relative"
     return (
 
         <div className="h-100">
             <Carousel>
+
                 {images.map && images.map(image =>
-                                              <Carousel.Item>
+                                              <Carousel.Item key={image}>
                                                   <a onClick={() => {
                                                       setImg(image)
                                                       handleShow()
                                                   }}><img src={image}
-                                                          className=" tt-images mt-2 w-100 ttr-rounded-15px"/></a>
-                                              </Carousel.Item>)}
-            </Carousel>
+                                                          className=" tt-images mt-2 w-100 ttr-rounded-15px" alt={"t-img"}/></a>
+                                                  </Carousel.Item>)}
+                </Carousel>
             <Modal size="lg" show={show} onHide={() => {
                 handleClose()
             }}>
@@ -54,7 +57,7 @@ export const SingleTuitImage = ({image}) => {
             <a onClick={() => {
                 handleShow()
             }}><img src={image}
-                    className=" mt-2 w-100 ttr-rounded-15px"/></a>
+                    className=" mt-2 w-100 ttr-rounded-15px" alt={"t-img"}/></a>
 
             <Modal size="lg" show={show} onHide={() => {
                 handleClose()
