@@ -35,6 +35,7 @@ const Home = () => {
     const createNewTuit = (newTuit) => {
         const tuit = {
             ...newTuit,
+            image: images,
             stats: {
                 replies: 0,
                 retuits: 0,
