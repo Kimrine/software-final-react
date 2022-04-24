@@ -4,6 +4,7 @@ import * as service from "../../services/tuits-service";
 import {useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
 import {Button, Modal} from 'react-bootstrap';
+import "./home.css"
 import Carousel from 'react-bootstrap/Carousel'
 
 const Home = () => {
@@ -83,7 +84,7 @@ const Home = () => {
     const deleteImage = (file) => {
         const newFiles = images.filter(f => f !== file);
         setImages(newFiles);
-        alert("The image is deleted")
+        //alert("The image is deleted")
     }
 
     return (
@@ -107,29 +108,16 @@ const Home = () => {
                         {
                             images.length > 0 &&
                             images.map((image, nth) =>
-                                <span key={nth} className={"badge bg-secondary me-3 position-relative"}>
-                                    {image.name}
-                                    <img src={image} className=" tt-images mt-2 w-100 ttr-rounded-15px"/>
+                                 <span key={nth} className={"badge bg-secondary me-3 position-relative"}>
+                                     {image.name}
+                                    <img src={image} className=" tt-images mt-2 w-100 ttr-rounded-15px" width={10} height={10}/>
                                     <span
                                         className={"position-absolute top-0 start-100 badge rounded-pill bg-dark"}
                                         onClick={() => deleteImage(image)}>
                                         <i className={"fa-solid fa-xmark"}/>
                                     </span>
-                                </span>)}
-                        {/*<Carousel>*/}
-                        {/*    {images.map && images.map((image, nth) =>*/}
-                        {/*        <Carousel.Item>*/}
-                        {/*            <img src={image}*/}
-                        {/*                 className=" tt-images mt-2 w-100 ttr-rounded-15px"/>*/}
-                        {/*            <span key={nth} className={"badge bg-secondary me-3 position-relative"}>*/}
-                        {/*            {image.name || image}*/}
-                        {/*            <span*/}
-                        {/*                className={"position-absolute top-0 start-0 badge rounded-pill bg-dark"}*/}
-                        {/*                onClick={(image) => deleteImage(image)}>*/}
-                        {/*                <i className={"fa-solid fa-xmark"}/>*/}
-                        {/*            </span></span>*/}
-                        {/*        </Carousel.Item>)}*/}
-                        {/*</Carousel>*/}
+                                 </span> )
+                            }
                         <div className="row">
 
                             <div className="col-10 ttr-font-size-150pc text-primary">
