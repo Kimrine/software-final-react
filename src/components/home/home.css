@@ -1,3 +1,14 @@
-/*.preview {*/
-/*    float: left*/
-/*}*/
+
+.preview{
+    width:125px;
+    float:left;
+}
+
+.preview-1{
+    width:100px;
+    float:left;
+}
+
+.preview span div img{
+    width:100px; height:100px;
+}
