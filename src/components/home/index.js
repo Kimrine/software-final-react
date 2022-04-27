@@ -5,11 +5,11 @@ import {useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
 import {Button, Modal} from 'react-bootstrap';
 import "./home.css"
-import Carousel from 'react-bootstrap/Carousel'
+import * as authService from "../../services/auth-service";
 
 const Home = () => {
-    const location = useLocation();
-    const {uid} = useParams();
+    //const location = useLocation();
+    //const {uid} = useParams();
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -23,13 +23,15 @@ const Home = () => {
     const [newTuit, setNewTuit] = useState({tuit: ''});
     const [images, setImages] = useState([]);
     const [fileUrl, setFileUrl] = useState([]);
-
+    const [profile,setProfile] = useState('');
     const findTuits = () =>
         service.findAllTuits()
             .then(tuits => setTuits(tuits));
 
-    useEffect(() => {
+    useEffect(async() => {
         let isMounted = true;
+        let profile = await authService.profile();
+         setProfile(profile);
         findTuits()
         return () => {
             isMounted = false;
@@ -94,7 +96,7 @@ const Home = () => {
                 <div className="d-flex">
                     <div className="p-2">
                         <img className="ttr-width-50px rounded-circle"
-                             src="../images/nasa-logo.jpg"/>
+                             src={`${profile.profilePhoto}`} />
                     </div>
                     <div className="p-2 w-100">
                         <textarea className="w-100"

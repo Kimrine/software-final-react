@@ -3,13 +3,23 @@ import Tuits from "../tuits";
 import * as tuitService from "../../services/tuits-service";
 import * as authService from "../../services/auth-service";
 import {useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {Button, Modal} from 'react-bootstrap';
+import "./home.css"
 
 const MyHome = () => {
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true)
+
+    const [videoShow, setVideoShow] = useState(false);
+    const handleVdClose = () => setVideoShow(false);
+    const handleVdShow = () => setVideoShow(true)
 
     const [tuits, setTuits] = useState([]);
     const [tuit, setTuit] = useState('');
     const [profile,setProfile] = useState('');
+    const [images, setImages] = useState([]);
+    const [fileUrl, setFileUrl] = useState([]);
 
     const findTuits = () =>
         tuitService.findTuitsByFollow(profile._id)
@@ -29,11 +39,58 @@ const MyHome = () => {
      *
      * @returns {Promise<void>}
      */
-    const createTuit = () =>
-        tuitService.createTuit('my', {tuit})
-            .then(findTuits)
+    const createTuit = (tuit) => {
+        const newtuit = {
+            ...tuit,
+            image: images,
+            stats: {
+                replies: 0,
+                retuits: 0,
+                likes: 0,
+                dislikes: 0
+            }
+        }
+        tuitService.createTuit('my', {newtuit})
+            .then(findTuits)}
+    
+    const imageData = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
 
-    return(
+    const handleFileRead = async (event) => {
+        const file = event.target.files[0]
+        const img = await imageData(file)
+        // const imageUrl = URL.createObjectURL(file);
+        // setFileUrl((arr) => [...arr, imageUrl]);
+        setImages((arr) =>
+                      [...arr, img]
+        )}
+
+    const getPreview = async (event) => {
+        const file = event.target.value
+        setFileUrl((arr) => [...arr, file]);
+
+        const url = event.target.value;
+        setImages((arr) =>
+                      [...arr, url]
+        )
+    }
+    const deleteImage = (file) => {
+        const newFiles = images.filter(f => f !== file);
+        setImages(newFiles);
+        //alert("The image is deleted")
+    }
+
+    return (
         <div className="ttr-home">
             <div className="border border-bottom-0">
                 <h4 className="fw-bold p-2">Home Screen</h4>
@@ -43,24 +100,104 @@ const MyHome = () => {
                              src={`${profile.profilePhoto}`} />
                     </div>
                     <div className="p-2 w-100">
-            <textarea
-                onChange={(e) =>
-                    setTuit(e.target.value)}
-                placeholder="What's happening?"
-                className="w-100 border-0"></textarea>
+                        <textarea className="w-100"
+                                  placeholder="What's Happening?"
+                                  onChange={(e) =>
+                                      setTuit({
+                                                     ...tuit,
+                                                     tuit: e.target.value
+                                                 })}>
+                    </textarea>
+                        {
+                            images.length > 0 &&
+                            images.map((image, nth) =>
+                                           <span className={"badge position-relative"}><div className={"preview"}>
+                                 <span key={nth} className={"badge bg-secondary me-3 position-relative"}>
+                                     {image.name}
+                                     <div className={"preview-1"}><img src={image} className="tt-images mt-2 w-100 ttr-rounded-15px" width={10} height={10}/></div>
+                                     <span
+                                         className={"position-absolute top-0 start-100 badge rounded-pill bg-dark"}
+                                         onClick={() => deleteImage(image)}>
+                                        <i className={"fa-solid fa-xmark"}/>
+                                    </span>
+                                 </span> </div></span> )
+                        }
                         <div className="row">
+
                             <div className="col-10 ttr-font-size-150pc text-primary">
-                                <i className="fas fa-portrait me-3"></i>
-                                <i className="far fa-gif me-3"></i>
-                                <i className="far fa-bar-chart me-3"></i>
-                                <i className="far fa-face-smile me-3"></i>
-                                <i className="far fa-calendar me-3"></i>
-                                <i className="far fa-map-location me-3"></i>
+
+
+                                <a href="#" onClick={() => {
+                                    handleShow()
+                                }}><i className="fas fa-image me-3"></i></a>
+                                <Modal show={show} onHide={() => {
+                                    handleClose()
+                                }}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Upload Image</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <input className="w-100"
+                                               placeholder="Enter link"
+                                               onChange={e => getPreview(e)}/>
+                                        <input type="file" name="myImage" accept="image/gif,image/jpeg,image/jpg,image/png" multiple
+                                               onChange={e => handleFileRead(e)}/>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={() => {
+                                            handleClose()
+                                        }}>
+                                            Close
+                                        </Button>
+                                        <Button variant="primary" onClick={() => {
+                                            handleClose()
+                                        }}>
+                                            Save
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
+
+                                <a href="#" onClick={() => {
+                                    handleVdShow()
+                                }}><i className="fa fa-film me-3"></i></a>
+                                <Modal show={videoShow} onHide={() => {
+                                    handleVdClose()
+                                }}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Share Video</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <input className="w-100"
+                                               placeholder="Embed video link"
+                                               onChange={(e) =>
+                                                   setTuit({
+                                                                  ...tuit,
+                                                                  youtube: e.target.value
+                                                              })}/>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={() => {
+                                            handleVdClose()
+                                        }}>
+                                            Close
+                                        </Button>
+                                        <Button variant="primary" onClick={() => {
+                                            handleVdClose()
+                                        }}>
+                                            Share
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <a href="#"><i className="far fa-gif me-3"></i></a>
+                                <a href="#"><i className="far fa-face-smile me-3"></i></a>
+                                <a href="#"><i className="far fa-calendar me-3"></i></a>
+                                <a href="#"><i className="far fa-map-location me-3"></i></a>
                             </div>
                             <div className="col-2">
-                                <a onClick={createTuit}
-                                   className="btn btn-primary rounded-pill fa-pull-right
-                                fw-bold ps-4 pe-4">
+                                <a onClick={() =>
+                                    createTuit(tuit)}
+                                   className={`btn btn-primary rounded-pill fa-pull-right
+                                fw-bold ps-4 pe-4`}>
                                     Tuit
                                 </a>
                             </div>
